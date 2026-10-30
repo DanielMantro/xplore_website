@@ -26,6 +26,8 @@ const routes = defineCollection({
     heroAlt: z.string(),
     publishedAt: z.coerce.date(),
     author: z.string(),
+    /** Extra line under "Collect this route", e.g. the bonus country card. */
+    collectNote: z.string().optional(),
     stops: z.array(
       z.object({
         name: z.string(),

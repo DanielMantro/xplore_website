@@ -9,7 +9,7 @@ const { data } = Astro.props.route;
 <a class="rcard" href={`/routes/${data.slug}`}>
   <img src={data.heroImage} alt={data.heroAlt} loading="lazy" decoding="async">
   <div class="top">
-    <span class="tag">{data.activities.map((a) => ACTIVITY_LABELS[a]).join(' · ')}</span>
+    <span class="tag activity">{ACTIVITY_LABELS[data.activities[0]]}{data.activities.length > 1 && ` +${data.activities.length - 1}`}</span>
     {data.inApp && <span class:list={['tag', 'app', { solid: data.inApp === 'available' }]}>{IN_APP_LABELS[data.inApp]}</span>}
   </div>
   <div class="bottom">
@@ -23,5 +23,6 @@ const { data } = Astro.props.route;
 </a>
 
 <style>
+  .activity { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; display: block; line-height: 24px; }
   .tag.solid { background: var(--xp-tint); border-color: var(--xp-tint); color: #0F1117; }
 </style>

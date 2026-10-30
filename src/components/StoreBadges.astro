@@ -11,5 +11,7 @@ import { APP_STORE_URL, PLAY_STORE_URL } from '../consts';
 <style>
   .store-badge { display: block; border-radius: 9px; }
   .store-badge img { display: block; height: 48px; width: auto; }
+  /* Narrow phones: keep the pair on one line inside padded panels. */
+  @media (max-width: 400px) { .store-badge img { height: 42px; } }
   .store-badge:focus-visible { outline: 2px solid var(--xp-tint); outline-offset: 3px; }
 </style>

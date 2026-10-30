@@ -16,6 +16,7 @@ heroImage: /assets/cards/kyoto.webp
 heroAlt: "A pagoda above Kyoto's rooftops with mountains behind"
 publishedAt: 2026-11-15
 author: Daniel Feile
+collectNote: "You also get the Japan country card. This route is already in the Xplore app as an example trip, and it's coming to the trip planner so you can load it into your own trip."
 stops:
   - { name: "Tokyo", cardId: "384a1ea5-9598-4a9e-b44f-ab35599269bf", type: city, rarity: Common, nights: 3, lat: 35.6762, lng: 139.6503, image: /assets/cards/tokyo.webp }
   - { name: "Mount Fuji", cardId: "9bf9595d-1660-4507-a084-d69a2c19d99a", type: landmark, rarity: Common, nights: 0, lat: 35.3636, lng: 138.7264, image: /assets/cards/mount-fuji.webp }
@@ -64,7 +65,3 @@ Finish in Japan's kitchen. Osaka is louder and more relaxed than Kyoto: eat tako
 - **Luggage:** use a luggage forwarding service (takkyubin) from Tokyo to Kyoto and travel light to Hakone.
 - **Booking:** Kyoto and Hakone ryokan fill up months ahead in spring and autumn.
 - **Order:** this route also works in reverse if you fly into Osaka (KIX).
-
-## Collect this route
-**7 cards to collect:** Tokyo · Mount Fuji · Hakone & Fuji Five Lakes · Kyoto · Fushimi Inari Shrine · Nara (Rare) · Osaka. You also get the **Japan** country card.\
-*This route is already in the Xplore app as an example trip and is coming to the trip planner, so you can load it into your own trip.*

@@ -7,6 +7,8 @@ body { margin: 0; background: var(--xp-bg); color: var(--xp-text); font-family: 
 a { color: var(--xp-tint); text-decoration: none; }
 a:hover { color: #5EEAD4; }
 h1, h2, h3, p { margin: 0; }
+/* width/height attributes reserve space; CSS sizes the image without stretching it. */
+img { max-width: 100%; height: auto; }
 
 .wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 32px; }
 .section { padding: 112px 0; }
@@ -83,9 +85,9 @@ a.btn-secondary, .btn-secondary { background: var(--xp-surface); color: var(--xp
 .rcard { position: relative; display: block; border-radius: 18px; overflow: hidden; aspect-ratio: 16 / 11; background: #161B2B; border: 1px solid var(--xp-border); }
 .rcard img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .rcard::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.25) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,.88) 100%); }
-.rcard .top { position: absolute; z-index: 1; top: 14px; left: 14px; right: 14px; display: flex; justify-content: space-between; gap: 8px; }
+.rcard .top { position: absolute; z-index: 1; top: 14px; left: 14px; right: 14px; display: flex; justify-content: space-between; gap: 8px; min-width: 0; }
 .rcard .bottom { position: absolute; z-index: 1; left: 20px; right: 20px; bottom: 18px; color: #fff; }
-.tag { display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: rgba(15,17,23,.7); color: #fff; border: 1px solid rgba(255,255,255,.18); }
+.tag { display: inline-flex; align-items: center; flex: none; white-space: nowrap; height: 26px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: rgba(15,17,23,.7); color: #fff; border: 1px solid rgba(255,255,255,.18); }
 .tag.app { background: transparent; color: var(--xp-accent); border-color: var(--xp-accent); background: rgba(15,17,23,.7); }
 .meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 14px; color: #CBD5E1; }
 
@@ -137,5 +139,5 @@ a.btn-secondary, .btn-secondary { background: var(--xp-surface); color: var(--xp
   .months { grid-template-columns: repeat(6, minmax(0, 1fr)); }
   .hide-m { display: none !important; }
   .show-m { display: flex !important; }
-  .rev-m { order: -1; }
+  .rev-m { order: 1; }
 }

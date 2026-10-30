@@ -16,6 +16,7 @@ heroImage: /assets/cards/gullfoss.webp
 heroAlt: "Gullfoss waterfall plunging into its canyon"
 publishedAt: 2026-11-15
 author: Daniel Feile
+collectNote: "You also get the Iceland country card. Gullfoss and the geysers are also part of the Nature Sights collection, and Eyjafjallajökull and Fagradalsfjall count towards Volcanoes."
 stops:
   - { name: "Reykjavik", cardId: "6fda6661-586a-4fbf-93d6-3dc1895d6007", type: city, rarity: Uncommon, nights: 2, lat: 64.1466, lng: -21.9426, image: /assets/cards/reykjavik.webp }
   - { name: "Icelands Geysers", cardId: "f4b7d3d4-f950-44ab-aa4e-1c01fe449920", type: landmark, rarity: Uncommon, nights: 0, lat: 64.3135, lng: -20.3, image: /assets/cards/icelands-geysers.webp }
@@ -55,7 +56,3 @@ On the Reykjanes Peninsula, this volcanic system woke up in 2021 after about 6,0
 - **Weather:** it can change within the hour. Pack layers and waterproofs even in July.
 - **Booking:** summer accommodation outside Reykjavik is limited, so book early.
 - **Respect nature:** stay on marked paths. Moss takes decades to recover.
-
-## Collect this route
-**5 cards to collect:** Reykjavik · Icelands Geysers · Gullfoss · Eyjafjallajökull · Fagradalsfjall, plus the **Iceland** country card. Gullfoss and the geysers are also part of the *Nature Sights* collection, and Eyjafjallajökull and Fagradalsfjall count towards *Volcanoes*.\
-*Coming to the Xplore trip planner.*

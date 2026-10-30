@@ -77,9 +77,9 @@ const KYOTO = { best: ['Mar', 'Apr', 'May', 'Oct', 'Nov'], okay: ['Jun', 'Sep', 
       <h1 class="h1">Seven moves to <span class="teal">collect the world</span></h1>
       <p class="lead">Xplore is part travel tracker, part trip planner, part game. Here's everything it does, in the order you'll discover it.</p>
       <div class="hero-posters">
-        <div class="poster hide-m" style="width: 230px; transform: translateY(40px) rotate(-6deg);"><img src="/assets/store/ios-03-collections.webp" alt="Store screenshot: Complete iconic collections" width="600" height="1301"></div>
-        <div class="poster" style="width: 260px;"><img src="/assets/store/ios-01-discover-swipe.webp" alt="Store screenshot: Swipe your next dream trip" width="600" height="1301"></div>
-        <div class="poster hide-m" style="width: 230px; transform: translateY(40px) rotate(6deg);"><img src="/assets/store/ios-05-best-time.webp" alt="Store screenshot: Know the best time to go" width="600" height="1301"></div>
+        <div class="poster side left hide-m"><img src="/assets/store/ios-03-collections.webp" alt="Store screenshot: Complete iconic collections" width="600" height="1301"></div>
+        <div class="poster front"><img src="/assets/store/ios-01-discover-swipe.webp" alt="Store screenshot: Swipe your next dream trip" width="600" height="1301"></div>
+        <div class="poster side right hide-m"><img src="/assets/store/ios-05-best-time.webp" alt="Store screenshot: Know the best time to go" width="600" height="1301"></div>
       </div>
     </div>
   </section>
@@ -104,8 +104,8 @@ const KYOTO = { best: ['Mar', 'Apr', 'May', 'Oct', 'Nov'], okay: ['Jun', 'Sep', 
         </ul>
       </div>
       <div class="pair">
-        <div class="poster"><img src="/assets/store/ios-01-discover-swipe.webp" alt="Store screenshot: Swipe your next dream trip" width="600" height="1301" loading="lazy"></div>
         <div class="poster"><img src="/assets/store/ios-02-collect-rarity.webp" alt="Store screenshot: Collect adventures, not just countries" width="600" height="1301" loading="lazy"></div>
+        <div class="poster"><img src="/assets/store/ios-01-discover-swipe.webp" alt="Store screenshot: Swipe your next dream trip" width="600" height="1301" loading="lazy"></div>
       </div>
     </div>
   </section>
@@ -153,7 +153,7 @@ const KYOTO = { best: ['Mar', 'Apr', 'May', 'Oct', 'Nov'], okay: ['Jun', 'Sep', 
     <div class="wrap stack">
       <div class="g2">
         <div class="rev-m center">
-          <div class="poster" style="width: 260px;"><img src="/assets/store/ios-05-best-time.webp" alt="Store screenshot: Know the best time to go" width="600" height="1301" loading="lazy"></div>
+          <div class="poster" style="width: 300px;"><img src="/assets/store/ios-05-best-time.webp" alt="Store screenshot: Know the best time to go" width="600" height="1301" loading="lazy"></div>
         </div>
         <div class="text">
           <span class="eyebrow"><span class="num">4</span>Best time &amp; trips</span>
@@ -254,7 +254,7 @@ const KYOTO = { best: ['Mar', 'Apr', 'May', 'Oct', 'Nov'], okay: ['Jun', 'Sep', 
         <span class="small levels">Prices as listed in the App Store (0,99 € / 1,99 €); may vary by country and store.</span>
       </div>
       <div class="center">
-        <div class="poster" style="width: 280px;"><img src="/assets/store/play-07-overview-bundles.webp" alt="Store screenshot: 199 countries, 900+ places" width="600" height="1067" loading="lazy"></div>
+        <div class="poster hide-m" style="width: 320px;"><img src="/assets/store/play-07-overview-bundles.webp" alt="Store screenshot: 199 countries, 900+ places" width="600" height="1067" loading="lazy"></div>
       </div>
     </div>
   </section>
@@ -324,13 +324,17 @@ const KYOTO = { best: ['Mar', 'Apr', 'May', 'Oct', 'Nov'], okay: ['Jun', 'Sep', 
 </script>
 
 <style>
-  .hero { padding: 96px 0 0; overflow: hidden; }
+  .hero { padding: 96px 0 88px; overflow: hidden; }
   .hero .wrap { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 24px; }
   .hero h1 { max-width: 820px; }
   .hero .lead { max-width: 640px; }
-  /* Posters run off the bottom edge of the hero, as in the canvas. */
-  .hero-posters { display: flex; justify-content: center; align-items: flex-start; gap: 24px; margin-top: 32px; height: 460px; overflow: hidden; padding-top: 8px; }
+  /* Three whole posters, fanned, the middle one in front. */
+  .hero-posters { display: flex; justify-content: center; align-items: center; margin-top: 40px; }
   .hero-posters .poster { flex: none; }
+  .hero-posters .front { position: relative; z-index: 1; width: 240px; }
+  .hero-posters .side { width: 200px; }
+  .hero-posters .left { transform: translate(28px, 28px) rotate(-7deg); }
+  .hero-posters .right { transform: translate(-28px, 28px) rotate(7deg); }
 
   /* Sticky in-page nav, sits under the 64px site header. */
   .moves { position: sticky; top: 64px; z-index: 5; background: rgba(15,17,23,.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--xp-border); }
@@ -343,7 +347,7 @@ const KYOTO = { best: ['Mar', 'Apr', 'May', 'Oct', 'Nov'], okay: ['Jun', 'Sep', 
   .stack { display: flex; flex-direction: column; gap: 96px; }
   .h2.sub { font-size: 34px; }
   .pair { display: flex; gap: 20px; justify-content: center; align-items: flex-start; }
-  .pair > * { width: 46%; max-width: 240px; }
+  .pair > * { width: 46%; }
   .pair > :nth-child(2) { margin-top: 48px; }
 
   .checks { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; }
@@ -374,14 +378,20 @@ const KYOTO = { best: ['Mar', 'Apr', 'May', 'Oct', 'Nov'], okay: ['Jun', 'Sep', 
     .moves .wrap { justify-content: flex-start; }
   }
   @media (max-width: 640px) {
-    .hero { padding-top: 56px; }
-    .hero-posters { height: 380px; margin-top: 16px; }
+    .hero { padding: 56px 0 64px; }
+    .hero-posters { margin-top: 16px; }
+    .hero-posters .front { width: 220px; }
     .stack { gap: 72px; }
     .h2.sub { font-size: 28px; }
-    .pair { gap: 12px; }
-    .pair > :nth-child(2) { margin-top: 32px; }
-    /* Pairs whose second image is hidden on phones show the first one larger. */
-    .pair:has(> .hide-m) > :not(.hide-m) { width: 70%; max-width: 280px; }
+    /* Phones: one smaller image per section keeps the page short. Overrides the inline desktop widths. */
+    .pair > :nth-child(2) { display: none; }
+    .section .g2 .poster, .section .g2 .phone { width: 60% !important; max-width: 230px; margin-top: 0; }
+    .section .g2 .xcard { width: 220px !important; }
+    /* Compact rows: icon beside the text. */
+    .tile { padding: 18px; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 14px; row-gap: 4px; }
+    .tile .ico { grid-row: span 2; }
+    .tile .h3 { font-size: 18px; }
+    .g3:has(> .tile) { gap: 12px; }
     /* Description drops below the name so the price keeps its column. */
     .bundles tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; padding: 14px 16px; column-gap: 12px; }
     .bundles tr + tr { border-top: 1px solid var(--xp-border); }

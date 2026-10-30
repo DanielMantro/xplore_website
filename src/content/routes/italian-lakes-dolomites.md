@@ -16,6 +16,7 @@ heroImage: /assets/cards/lake-como.webp
 heroAlt: "Villas on the shore of Lake Como below green mountains"
 publishedAt: 2026-11-15
 author: Daniel Feile
+collectNote: "You also get the Italy country card. The Dolomites also count towards Iconic Mountains and Nature Sights."
 stops:
   - { name: "Milan", cardId: "8b12ca2d-0420-4fd3-8f3d-e683a53348c0", type: city, rarity: Common, nights: 2, lat: 45.4642, lng: 9.19, image: /assets/cards/milan.webp }
   - { name: "Lake Como", cardId: "99d313db-e00c-4027-952e-23467d4196a5", type: landmark, rarity: Rare, nights: 2, lat: 45.99, lng: 9.26, image: /assets/cards/lake-como.webp }
@@ -56,7 +57,3 @@ End with no cars, no roads and more than 400 bridges. Get up early for an empty 
 - **Transport:** trains connect Milan, Como, Garda (Desenzano / Peschiera) and Venice. For the Dolomites, rent a car in Verona or Trento and return it before Venice.
 - **Booking:** reserve Lake Como and Dolomites stays early for June and September.
 - **Mountains:** weather changes fast above 2,000 m, so bring a warm layer even in July.
-
-## Collect this route
-**5 cards to collect:** Milan · Lake Como (Rare) · Lake Garda · The Dolomites (Three Peaks) · Venice, plus the **Italy** country card. The Dolomites also count towards *Iconic Mountains* and *Nature Sights*.\
-*Coming to the Xplore trip planner.*

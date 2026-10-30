@@ -36,7 +36,7 @@ const jsonLd = {
     <img src={data.heroImage} alt={data.heroAlt}>
     <div class="scrim"></div>
     <div class="wrap">
-      <a href="/routes" class="small" style="font-weight: 600;">← All travel routes</a>
+      <a href="/routes" class="back">← All travel routes</a>
       <div class="tags">
         <span class="tag">{data.region}</span>
         {data.activities.map((a) => <span class="tag">{ACTIVITY_LABELS[a]}</span>)}
@@ -55,15 +55,17 @@ const jsonLd = {
         <div><div class="micro">Stops</div><div class="h3">{data.stops.length} stops</div></div>
         <div><div class="micro">Best time</div><div class="h3">{monthRanges(data.bestMonths)}</div></div>
         <div><div class="micro">Cards to collect</div><div class="h3">{data.stops.length}</div></div>
+        <div class="when"><MonthStrip best={data.bestMonths} okay={data.okayMonths} /></div>
       </div>
       {/* TODO: route map from stops[].lat/lng (brief: Route map) */}
-      <MonthStrip best={data.bestMonths} okay={data.okayMonths} />
     </div>
   </section>
 
-  <article class="wrap prose">
-    <Content />
-  </article>
+  <div class="wrap">
+    <article class="prose">
+      <Content />
+    </article>
+  </div>
 
   <section class="section alt">
     <div class="wrap collect">
@@ -72,7 +74,8 @@ const jsonLd = {
       <div class="cards">
         {data.stops.map((s) => <XCard name={s.name} image={s.image} type={s.type} rarity={s.rarity} />)}
       </div>
-      <p class="muted">{data.inApp === 'available' ? 'Open in Xplore' : 'Coming to the Xplore trip planner'}</p>
+      {data.collectNote && <p class="muted note-line">{data.collectNote}</p>}
+      <p class="status">{data.inApp === 'available' ? 'Open in Xplore' : 'Coming to the Xplore trip planner'}</p>
       <StoreBadges />
     </div>
   </section>
@@ -96,20 +99,33 @@ const jsonLd = {
   .hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,17,23,.2) 0%, rgba(15,17,23,.35) 45%, var(--xp-bg) 100%); }
   .hero .wrap { position: relative; padding-bottom: 64px; display: flex; flex-direction: column; gap: 18px; }
+  /* Readable on any photo. */
+  .back { align-self: flex-start; padding: 6px 14px; border-radius: 999px; font-size: 14px; font-weight: 600; color: #fff; background: rgba(15,17,23,.6); border: 1px solid rgba(255,255,255,.18); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  .back:hover { color: #fff; border-color: var(--xp-tint); }
   .hero .tags { display: flex; gap: 8px; flex-wrap: wrap; }
   .hero h1 { max-width: 900px; }
   .hero .lead { max-width: 680px; color: #CBD5E1; }
   .glance-section .wrap { padding-top: 56px; display: flex; flex-direction: column; gap: 24px; }
   .glance { padding: 28px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
   .glance .h3 { margin-top: 4px; }
+  .glance .when { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 10px; padding-top: 20px; border-top: 1px solid var(--xp-border); }
   .prose { max-width: 68ch; padding-top: 48px; padding-bottom: 96px; font-size: 18px; line-height: 1.7; color: #CBD5E1; }
   .prose :global(h2) { font-size: 32px; line-height: 1.15; font-weight: 700; letter-spacing: -.02em; color: var(--xp-text); margin: 56px 0 16px; }
   .prose :global(h3) { font-size: 24px; font-weight: 600; color: var(--xp-text); margin: 40px 0 10px; }
   .prose :global(p), .prose :global(ul) { margin: 0 0 16px; }
   .prose :global(strong) { color: var(--xp-text); }
   .collect { display: flex; flex-direction: column; gap: 20px; }
-  .collect .cards { display: flex; gap: 16px; overflow-x: auto; padding: 12px 4px 20px; }
-  .collect .cards :global(.xcard) { width: 180px; }
+  /* Fixed-width cards: seven fit one desktop row, and short routes don't stretch them. */
+  .collect .cards { display: flex; flex-wrap: wrap; gap: 16px; padding: 12px 0 8px; }
+  .collect .cards :global(.xcard) { width: 144px; }
+  .note-line { max-width: 68ch; }
+  .status { font-weight: 600; color: var(--xp-accent); }
   @media (max-width: 900px) { .glance { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 640px) { .hero { min-height: 520px; } .glance { padding: 20px; } }
+  @media (max-width: 640px) {
+    .hero { min-height: 520px; }
+    .glance { padding: 20px; }
+    /* Phones: one swipeable row instead of a tall grid. */
+    .collect .cards { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -16px; padding: 12px 16px 20px; scrollbar-width: none; }
+    .collect .cards :global(.xcard) { width: 150px; scroll-snap-align: start; }
+  }
 </style>
