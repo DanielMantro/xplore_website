@@ -1,0 +1,55 @@
+---
+import { CONTACT_EMAIL, INSTAGRAM_URL } from '../consts';
+import StoreBadges from './StoreBadges.astro';
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div class="brand">
+        <div class="logo">
+          <img src="/assets/brand/app-store-icon-1024.png" alt="" width="40" height="40">
+          <span>Xplore</span>
+        </div>
+        <p class="muted small">Collect the world, one card at a time. Travel map, journal and trip planner for iPhone and Android.</p>
+        <StoreBadges />
+      </div>
+      <div class="links">
+        <nav aria-label="App">
+          <span class="micro">App</span>
+          <a href="/features">Features</a>
+          <a href="/routes">Travel routes</a>
+          <a href="/features#faq">FAQ</a>
+        </nav>
+        <nav aria-label="Legal">
+          <span class="micro">Legal</span>
+          <a href="/privacy/app">Privacy (app)</a>
+          <a href="/privacy/website">Privacy (website)</a>
+          <a href="/imprint">Imprint</a>
+        </nav>
+        <nav aria-label="Follow">
+          <span class="micro">Follow</span>
+          <a href={INSTAGRAM_URL}>Instagram</a>
+          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+        </nav>
+      </div>
+    </div>
+    <div class="bottom">
+      <span>© {new Date().getFullYear()} Daniel Feile · Made in Cologne</span>
+      <span>No cookies. No tracking. Just travel.</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { background: var(--xp-surface); border-top: 1px solid var(--xp-border); }
+  .wrap { padding-top: 72px; padding-bottom: 40px; }
+  .cols { display: flex; flex-wrap: wrap; gap: 48px; justify-content: space-between; }
+  .brand { flex: 1 1 320px; display: flex; flex-direction: column; gap: 18px; max-width: 380px; }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo img { border-radius: 9px; display: block; }
+  .logo span { font-size: 22px; font-weight: 700; }
+  .links { display: flex; flex-wrap: wrap; gap: 64px; }
+  nav { display: flex; flex-direction: column; gap: 12px; font-size: 15px; }
+  nav a { color: #CBD5E1; }
+  .bottom { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--xp-border); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 14px; color: var(--xp-text-muted); }
+</style>

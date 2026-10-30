@@ -1,0 +1,22 @@
+---
+// Smart download link for QR codes, the Instagram bio and print: iOS → App Store, Android → Play,
+// everything else → /#download. GitHub Pages can't redirect server-side, so this runs in the browser.
+import { APP_STORE_URL, PLAY_STORE_URL } from '../consts';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Get Xplore</title>
+    <script is:inline define:vars={{ ios: APP_STORE_URL, android: PLAY_STORE_URL }}>
+      const ua = navigator.userAgent;
+      const isIOS = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+      location.replace(isIOS ? ios : /Android/.test(ua) ? android : '/#download');
+    </script>
+  </head>
+  <body style="background: #0F1117; color: #F1F5F9; font-family: system-ui, sans-serif; padding: 24px;">
+    <p>Get Xplore on the <a href={APP_STORE_URL} style="color: #14B8A6;">App Store</a> or <a href={PLAY_STORE_URL} style="color: #14B8A6;">Google Play</a>.</p>
+  </body>
+</html>

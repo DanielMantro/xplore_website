@@ -1,0 +1,23 @@
+---
+// Collectible card, the site's signature component (brief: 02-design-system.md › Collectible card).
+interface Props {
+  name: string;
+  image: string;
+  type: 'country' | 'landmark' | 'wildlife' | 'event' | 'island' | 'city';
+  rarity: 'Common' | 'Uncommon' | 'Rare' | 'Epic';
+  undiscovered?: boolean;
+  /** Above-the-fold cards (hero fans) load eagerly. */
+  eager?: boolean;
+  class?: string;
+  style?: string;
+}
+const { name, image, type, rarity, undiscovered = false, eager = false, class: className, style } = Astro.props;
+const typeLabel = type === 'island' ? 'Island' : type[0].toUpperCase() + type.slice(1);
+---
+<div class:list={['xcard', `r-${rarity.toLowerCase()}`, { undiscovered }, className]} style={style}>
+  <div class="photo"><img src={image} alt={`${name} — ${type}, ${rarity} card`} loading={eager ? 'eager' : 'lazy'} decoding="async"></div>
+  <span class={`type t-${type}`}>{typeLabel}</span>
+  {undiscovered && <span class="undis">Undiscovered</span>}
+  <span class="name">{name}</span>
+  <div class="foot">{rarity}</div>
+</div>

@@ -1,0 +1,125 @@
+/* Xplore website tokens — derived from the app (constants/colors.ts, typography.ts, layout.ts).
+   Dark is the default theme, matching the app. Light values are provided for an optional light mode. */
+
+
+:root {
+  /* ---- Surfaces & text (dark, default) ---- */
+  --xp-bg: #0F1117;
+  --xp-surface: #1E2130;
+  --xp-surface-elevated: #252A3A;
+  --xp-border: #2D3347;
+  --xp-divider: #2D3347;
+  --xp-overlay: rgba(0, 0, 0, 0.65);
+  --xp-text: #F1F5F9;
+  --xp-text-secondary: #94A3B8;
+  --xp-text-tertiary: #64748B;
+  --xp-text-on-color: #FFFFFF;
+
+  /* ---- Brand ---- */
+  --xp-tint: #14B8A6;            /* primary teal (dark) */
+  --xp-tint-strong: #0D9488;     /* primary teal (light), hover/pressed on dark */
+  --xp-tint-wash: rgba(20, 184, 166, 0.18);
+  --xp-accent: #D4A574;          /* sand / gold */
+  --xp-accent-wash: #3D2E1E;
+  --xp-wishlist: #EC4899;
+  --xp-success: #10B981;
+  --xp-danger: #EF4444;
+  --xp-warning: #FBBF24;
+  --xp-star: #FCD34D;
+  --xp-ocean: #1F4E86;           /* map ocean behind the world-map background */
+
+  /* ---- Store-creative palette (light "poster" panels, as in the store screenshots) ---- */
+  --xp-paper: #F3F1EC;
+  --xp-ink: #14201C;
+  --xp-ink-teal: #0D8A7B;
+
+  /* ---- Gradients ---- */
+  --xp-grad-ocean: linear-gradient(160deg, #14B8A6 0%, #0E7490 55%, #1E3A8A 100%);
+  --xp-grad-foil: linear-gradient(135deg, #14B8A6 0%, #3B82F6 50%, #A855F7 100%);
+  --xp-grad-photo-fade: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.92) 100%);
+  --xp-scrim-map: rgba(15, 17, 23, 0.86); /* over world-map.jpg */
+
+  /* ---- Rarity ---- */
+  --xp-common: #9CA3AF;    --xp-common-border: #6B7280;
+  --xp-uncommon: #34D399;  --xp-uncommon-border: #059669;
+  --xp-rare: #60A5FA;      --xp-rare-border: #2563EB;
+  --xp-epic: #C084FC;      --xp-epic-border: #9333EA;
+  --xp-grad-common: linear-gradient(90deg, #9CA3AF, #6B7280, #4B5563);
+  --xp-grad-uncommon: linear-gradient(90deg, #34D399, #059669, #047857);
+  --xp-grad-rare: linear-gradient(90deg, #60A5FA, #2563EB, #1D4ED8);
+  --xp-grad-epic: linear-gradient(90deg, #C084FC, #9333EA, #7E22CE);
+
+  /* ---- Card types ---- */
+  --xp-type-country: #3B82F6;
+  --xp-type-landmark: #F59E0B;
+  --xp-type-wildlife: #10B981;
+  --xp-type-event: #8B5CF6;
+  --xp-type-island: #06B6D4;
+  --xp-type-city: #F97316;
+
+  /* ---- Typography ---- */
+  --xp-font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* web scale (app scale ×~1.25–2 for display sizes) */
+  --xp-fs-display: clamp(2.75rem, 6vw, 4.5rem);  /* 44–72 / 1.05, 700 */
+  --xp-fs-h1: clamp(2.25rem, 4.5vw, 3.25rem);    /* 36–52 / 1.1, 700 */
+  --xp-fs-h2: clamp(1.75rem, 3vw, 2.25rem);      /* 28–36 / 1.15, 700 */
+  --xp-fs-h3: 1.375rem;                          /* 22 / 1.3, 600 */
+  --xp-fs-lead: 1.25rem;                         /* 20 / 1.5, 400 */
+  --xp-fs-body: 1.0625rem;                       /* 17 / 1.6, 400 */
+  --xp-fs-small: 0.9375rem;                      /* 15 / 1.5 */
+  --xp-fs-label: 0.8125rem;                      /* 13, 600, uppercase, +0.12em tracking */
+  --xp-fs-micro: 0.6875rem;                      /* 11, 600, uppercase */
+
+  /* ---- Spacing (app scale) ---- */
+  --xp-space-xxs: 2px;  --xp-space-xs: 4px;  --xp-space-sm: 8px;   --xp-space-md: 12px;
+  --xp-space-lg: 16px;  --xp-space-xl: 24px; --xp-space-xxl: 32px; --xp-space-3xl: 40px;
+  --xp-space-huge: 56px; --xp-space-giant: 80px; --xp-space-section: clamp(72px, 10vw, 128px);
+  --xp-container: 1200px;
+  --xp-gutter: 16px; /* phone; 24px ≥ 768, 32px ≥ 1200 */
+
+  /* ---- Radius ---- */
+  --xp-radius-xs: 4px; --xp-radius-sm: 8px; --xp-radius-md: 12px; --xp-radius-lg: 16px;
+  --xp-radius-xl: 20px; --xp-radius-xxl: 24px; --xp-radius-card: 14px; --xp-radius-pill: 999px;
+  --xp-radius-icon: 22.3%;   /* app-icon tile */
+  --xp-radius-phone: 48px;   /* phone mockup frame */
+
+  /* ---- Shadows (dark) ---- */
+  --xp-shadow-xs: 0 1px 1px rgba(0,0,0,0.06);
+  --xp-shadow-sm: 0 1px 2px rgba(0,0,0,0.12);
+  --xp-shadow-md: 0 2px 6px rgba(0,0,0,0.20);
+  --xp-shadow-lg: 0 3px 10px rgba(0,0,0,0.30);
+  --xp-shadow-xl: 0 4px 16px rgba(0,0,0,0.35);
+  --xp-glow-common: 0 4px 10px rgba(156,163,175,0.45);
+  --xp-glow-uncommon: 0 4px 10px rgba(52,211,153,0.45);
+  --xp-glow-rare: 0 4px 10px rgba(96,165,250,0.45);
+  --xp-glow-epic: 0 6px 24px rgba(192,132,252,0.55);
+
+  /* ---- Motion ---- */
+  --xp-press-scale-button: 0.97;
+  --xp-press-scale-card: 0.96;
+  --xp-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --xp-dur: 200ms;
+
+  color-scheme: dark;
+}
+
+/* Optional light theme (app light palette) */
+:root[data-theme="light"] {
+  --xp-bg: #F8F9FC;
+  --xp-surface: #FFFFFF;
+  --xp-surface-elevated: #FFFFFF;
+  --xp-border: #E5E7EB;
+  --xp-divider: #F1F5F9;
+  --xp-overlay: rgba(0, 0, 0, 0.4);
+  --xp-text: #1A1A2E;
+  --xp-text-secondary: #6B7280;
+  --xp-text-tertiary: #9CA3AF;
+  --xp-tint: #0D9488;
+  --xp-tint-strong: #0F766E;
+  --xp-accent-wash: #F5E6D3;
+  --xp-warning: #D97706;
+  --xp-star: #F59E0B;
+  --xp-scrim-map: rgba(248, 249, 252, 0.86);
+  color-scheme: light;
+}
+

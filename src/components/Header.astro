@@ -1,0 +1,64 @@
+---
+import { NAV } from '../consts';
+import StoreBadges from './StoreBadges.astro';
+const current = Astro.url.pathname;
+---
+<header class="site-header">
+  <div class="wrap bar">
+    <a href="/" class="logo">
+      <img src="/assets/brand/app-store-icon-1024.png" alt="" width="34" height="34">
+      <span>Xplore</span>
+    </a>
+    <nav class="hide-m" aria-label="Main">
+      {NAV.map((item) => (
+        <a href={item.href} aria-current={current.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>
+      ))}
+    </nav>
+    <div class="actions">
+      {/* TODO: desktop popover with badges + QR code to /get (brief: 01-structure.md › Header) */}
+      <a class="btn btn-primary btn-sm" href="/get">Get the app</a>
+      <button class="show-m burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="sheet" hidden>
+    <nav aria-label="Mobile">
+      {NAV.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+    <StoreBadges />
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('.site-header')!;
+  const burger = header.querySelector<HTMLButtonElement>('.burger')!;
+  const sheet = header.querySelector<HTMLElement>('.sheet')!;
+  burger.addEventListener('click', () => {
+    const open = sheet.hidden;
+    sheet.hidden = !open;
+    burger.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 4);
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+
+<style>
+  .site-header { position: sticky; top: 0; z-index: 10; background: rgba(15,17,23,.72); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid transparent; transition: border-color var(--xp-dur); }
+  .site-header.scrolled { border-bottom-color: var(--xp-border); }
+  .bar { height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .logo { display: flex; align-items: center; gap: 10px; color: var(--xp-text); }
+  .logo img { border-radius: 8px; display: block; }
+  .logo span { font-size: 20px; font-weight: 700; letter-spacing: -.01em; }
+  nav.hide-m { display: flex; gap: 36px; font-size: 15px; font-weight: 500; }
+  nav a { color: #CBD5E1; }
+  nav a[aria-current='page'] { color: var(--xp-tint); }
+  .actions { display: flex; align-items: center; gap: 10px; }
+  .burger { width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--xp-border); background: var(--xp-surface); color: var(--xp-text); align-items: center; justify-content: center; padding: 0; cursor: pointer; }
+  .sheet { position: fixed; inset: 64px 0 0; background: var(--xp-surface); padding: 32px 16px; display: flex; flex-direction: column; gap: 32px; }
+  .sheet[hidden] { display: none; }
+  .sheet nav { display: flex; flex-direction: column; gap: 20px; font-size: 22px; font-weight: 600; }
+  .sheet nav a { color: var(--xp-text); }
+</style>

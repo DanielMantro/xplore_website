@@ -1,0 +1,27 @@
+---
+import { ACTIVITY_LABELS, IN_APP_LABELS, monthRanges, type Route } from '../lib/routes';
+
+interface Props {
+  route: Route;
+}
+const { data } = Astro.props.route;
+---
+<a class="rcard" href={`/routes/${data.slug}`}>
+  <img src={data.heroImage} alt={data.heroAlt} loading="lazy" decoding="async">
+  <div class="top">
+    <span class="tag">{data.activities.map((a) => ACTIVITY_LABELS[a]).join(' · ')}</span>
+    {data.inApp && <span class:list={['tag', 'app', { solid: data.inApp === 'available' }]}>{IN_APP_LABELS[data.inApp]}</span>}
+  </div>
+  <div class="bottom">
+    <div class="h3" style="color: #fff;">{data.title}</div>
+    <div class="meta" style="margin-top: 6px;">
+      <span>{data.durationDays} days</span>
+      <span>{data.stops.length} stops</span>
+      <span>Best {monthRanges(data.bestMonths)}</span>
+    </div>
+  </div>
+</a>
+
+<style>
+  .tag.solid { background: var(--xp-tint); border-color: var(--xp-tint); color: #0F1117; }
+</style>

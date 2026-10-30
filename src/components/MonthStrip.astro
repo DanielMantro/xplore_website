@@ -1,0 +1,35 @@
+---
+import { MONTHS } from '../lib/routes';
+
+interface Props {
+  best: readonly string[];
+  okay: readonly string[];
+}
+const { best, okay } = Astro.props;
+const cls = (m: string) => (best.includes(m) ? 'm-best' : okay.includes(m) ? 'm-ok' : 'm-avoid');
+---
+<div class="months" role="list" aria-label="Best months to travel">
+  {MONTHS.map((m) => (
+    <div role="listitem" class={cls(m)} data-month={m}>
+      {m}<span class="sr-only">: {cls(m) === 'm-best' ? 'best' : cls(m) === 'm-ok' ? 'okay' : 'avoid'}</span>
+    </div>
+  ))}
+</div>
+<div class="legend">
+  <span><i style="background: var(--xp-tint);"></i> Best</span>
+  <span><i style="background: rgba(20,184,166,.28);"></i> Okay</span>
+  <span><i style="background: var(--xp-surface-elevated);"></i> Avoid</span>
+</div>
+
+<script>
+  // Outline the current month (brief: Month strip). Runs client-side so it stays correct without a rebuild.
+  const now = new Date().toLocaleString('en', { month: 'short' });
+  document.querySelectorAll<HTMLElement>(`.months [data-month="${now}"]`).forEach((el) => el.classList.add('now'));
+</script>
+
+<style>
+  .legend { display: flex; gap: 18px; font-size: 13px; color: var(--xp-text-secondary); }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; }
+  .months :global(.now) { outline: 2px solid #fff; outline-offset: 2px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>

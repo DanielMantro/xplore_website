@@ -1,0 +1,304 @@
+[
+ {
+  "file": "assets/cards/tokyo.webp",
+  "name": "Tokyo",
+  "type": "city",
+  "rarity": "Common",
+  "collections": [
+   "Top Asian Cities"
+  ]
+ },
+ {
+  "file": "assets/cards/mount-fuji.webp",
+  "name": "Mount Fuji",
+  "type": "landmark",
+  "rarity": "Common",
+  "collections": [
+   "Iconic Mountains",
+   "Volcanoes"
+  ]
+ },
+ {
+  "file": "assets/cards/hakone-fuji-five-lakes.webp",
+  "name": "Hakone & Fuji Five Lakes",
+  "type": "island",
+  "rarity": "Uncommon",
+  "collections": [
+   "North-East Asia"
+  ]
+ },
+ {
+  "file": "assets/cards/kyoto.webp",
+  "name": "Kyoto",
+  "type": "city",
+  "rarity": "Common",
+  "collections": [
+   "Top Asian Cities"
+  ]
+ },
+ {
+  "file": "assets/cards/fushimi-inari-shrine.webp",
+  "name": "Fushimi Inari Shrine",
+  "type": "landmark",
+  "rarity": "Common",
+  "collections": [
+   "Iconic Buildings"
+  ]
+ },
+ {
+  "file": "assets/cards/nara.webp",
+  "name": "Nara",
+  "type": "city",
+  "rarity": "Rare",
+  "collections": [
+   "Top Asian Cities"
+  ]
+ },
+ {
+  "file": "assets/cards/osaka.webp",
+  "name": "Osaka",
+  "type": "city",
+  "rarity": "Common",
+  "collections": [
+   "Top Asian Cities"
+  ]
+ },
+ {
+  "file": "assets/cards/reykjavik.webp",
+  "name": "Reykjavik",
+  "type": "city",
+  "rarity": "Uncommon",
+  "collections": [
+   "Top European Cities"
+  ]
+ },
+ {
+  "file": "assets/cards/icelands-geysers.webp",
+  "name": "Icelands Geysers",
+  "type": "landmark",
+  "rarity": "Uncommon",
+  "collections": [
+   "Nature Sights"
+  ]
+ },
+ {
+  "file": "assets/cards/gullfoss.webp",
+  "name": "Gullfoss",
+  "type": "landmark",
+  "rarity": "Uncommon",
+  "collections": [
+   "Nature Sights",
+   "Waterfalls"
+  ]
+ },
+ {
+  "file": "assets/cards/eyjafjallaj-kull.webp",
+  "name": "Eyjafjallajökull",
+  "type": "landmark",
+  "rarity": "Uncommon",
+  "collections": [
+   "Iconic Mountains",
+   "Volcanoes"
+  ]
+ },
+ {
+  "file": "assets/cards/fagradalsfjall.webp",
+  "name": "Fagradalsfjall",
+  "type": "landmark",
+  "rarity": "Uncommon",
+  "collections": [
+   "Iconic Mountains",
+   "Volcanoes"
+  ]
+ },
+ {
+  "file": "assets/cards/milan.webp",
+  "name": "Milan",
+  "type": "city",
+  "rarity": "Common",
+  "collections": [
+   "Top European Cities"
+  ]
+ },
+ {
+  "file": "assets/cards/lake-como.webp",
+  "name": "Lake Como",
+  "type": "landmark",
+  "rarity": "Rare",
+  "collections": []
+ },
+ {
+  "file": "assets/cards/lake-garda.webp",
+  "name": "Lake Garda",
+  "type": "landmark",
+  "rarity": "Common",
+  "collections": []
+ },
+ {
+  "file": "assets/cards/the-dolomites-three-peaks.webp",
+  "name": "The Dolomites (Three peaks)",
+  "type": "landmark",
+  "rarity": "Common",
+  "collections": [
+   "Iconic Mountains",
+   "Nature Sights"
+  ]
+ },
+ {
+  "file": "assets/cards/venice.webp",
+  "name": "Venice",
+  "type": "city",
+  "rarity": "Common",
+  "collections": [
+   "Top European Cities"
+  ]
+ },
+ {
+  "file": "assets/cards/japan.webp",
+  "name": "Japan",
+  "type": "country",
+  "rarity": "Common",
+  "collections": [
+   "North-East Asia"
+  ]
+ },
+ {
+  "file": "assets/cards/iceland.webp",
+  "name": "Iceland",
+  "type": "country",
+  "rarity": "Uncommon",
+  "collections": [
+   "Northern Europe"
+  ]
+ },
+ {
+  "file": "assets/cards/italy.webp",
+  "name": "Italy",
+  "type": "country",
+  "rarity": "Common",
+  "collections": [
+   "Southern-Mediterranean Europe"
+  ]
+ },
+ {
+  "file": "assets/cards/fiji.webp",
+  "name": "Fiji",
+  "type": "country",
+  "rarity": "Rare",
+  "collections": [
+   "Oceania"
+  ]
+ },
+ {
+  "file": "assets/cards/kilauea.webp",
+  "name": "Kilauea",
+  "type": "landmark",
+  "rarity": "Uncommon",
+  "collections": [
+   "Volcanoes"
+  ]
+ },
+ {
+  "file": "assets/cards/machu-picchu.webp",
+  "name": "Machu Picchu",
+  "type": "landmark",
+  "rarity": "Uncommon",
+  "collections": [
+   "Ancient Cities",
+   "Modern 7 World Wonders"
+  ]
+ },
+ {
+  "file": "assets/cards/great-barrier-reef.webp",
+  "name": "Great Barrier Reef",
+  "type": "landmark",
+  "rarity": "Common",
+  "collections": [
+   "Nature Sights",
+   "Top Diving Spots"
+  ]
+ },
+ {
+  "file": "assets/cards/santorini.webp",
+  "name": "Santorini",
+  "type": "island",
+  "rarity": "Common",
+  "collections": [
+   "Islands of the Mediterranean Sea",
+   "Southern-Mediterranean Europe"
+  ]
+ },
+ {
+  "file": "assets/cards/polar-bear.webp",
+  "name": "Polar Bear",
+  "type": "wildlife",
+  "rarity": "Epic",
+  "collections": [
+   "NA National Park Wildlife"
+  ]
+ },
+ {
+  "file": "assets/cards/petra.webp",
+  "name": "Petra",
+  "type": "landmark",
+  "rarity": "Uncommon",
+  "collections": [
+   "Ancient Cities",
+   "Modern 7 World Wonders"
+  ]
+ },
+ {
+  "file": "assets/cards/iceland.webp",
+  "name": "Iceland",
+  "type": "country",
+  "rarity": "Uncommon",
+  "collections": [
+   "Northern Europe"
+  ]
+ },
+ {
+  "file": "assets/cards/japan.webp",
+  "name": "Japan",
+  "type": "country",
+  "rarity": "Common",
+  "collections": [
+   "North-East Asia"
+  ]
+ },
+ {
+  "file": "assets/cards/italy.webp",
+  "name": "Italy",
+  "type": "country",
+  "rarity": "Common",
+  "collections": [
+   "Southern-Mediterranean Europe"
+  ]
+ },
+ {
+  "file": "assets/cards/mount-everest.webp",
+  "name": "Mount Everest",
+  "type": "landmark",
+  "rarity": "Rare",
+  "collections": [
+   "Iconic Mountains"
+  ]
+ },
+ {
+  "file": "assets/cards/whale-shark.webp",
+  "name": "Whale Shark",
+  "type": "wildlife",
+  "rarity": "Epic",
+  "collections": [
+   "Marine Wildlife"
+  ]
+ },
+ {
+  "file": "assets/cards/angkor-wat.webp",
+  "name": "Angkor Wat",
+  "type": "landmark",
+  "rarity": "Uncommon",
+  "collections": [
+   "Ancient Cities"
+  ]
+ }
+]

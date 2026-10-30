@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import StoreBadges from '../components/StoreBadges.astro';
+import XCard from '../components/XCard.astro';
+import RouteCard from '../components/RouteCard.astro';
+import DownloadBand from '../components/DownloadBand.astro';
+import { APP_STORE_URL, PLAY_STORE_URL } from '../consts';
+import { sortByDate } from '../lib/routes';
+
+const latest = sortByDate(await getCollection('routes')).slice(0, 3);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'MobileApplication',
+  name: 'Xplore',
+  operatingSystem: 'iOS, Android',
+  applicationCategory: 'TravelApplication',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+  installUrl: [APP_STORE_URL, PLAY_STORE_URL],
+};
+---
+<Base
+  title="Xplore — Travel map, tracker & trip planner that turns your travels into cards"
+  description="Collect the world, one card at a time. Track countries visited on your travel map, collect 900+ places as cards and plan trips at the right time of year. Free on iPhone and Android."
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  {/* Section 1 of 9 (03-content/home.md). Sections 2–8 still to build. */}
+  <section class="hero mapbg" style="background-image: url(/assets/images/world-map.jpg);">
+    <div class="wrap g2">
+      <div class="copy">
+        <span class="eyebrow">Travel map · Journal · Trip planner</span>
+        <h1 class="display">Collect the world,<br><span class="teal">one card at a time.</span></h1>
+        <p class="lead">Xplore turns every trip into a collectible card. Track the countries you've visited, watch your world map fill in, and plan your next adventure for the perfect time of year.</p>
+        <StoreBadges />
+        <p class="small muted">Free · No sign-up needed · iPhone &amp; Android</p>
+      </div>
+      <div class="visual hide-m">
+        <div class="phone"><img src="/assets/screenshots/app-card-detail-fiji.webp" alt="Xplore card detail screen for Fiji"></div>
+        <XCard name="Kyoto" image="/assets/cards/kyoto.webp" type="city" rarity="Common" eager style="left: -10px; top: 250px; width: 170px; transform: rotate(-12deg);" />
+        <XCard name="Polar Bear" image="/assets/cards/polar-bear.webp" type="wildlife" rarity="Epic" eager style="right: -10px; top: 280px; width: 190px; transform: rotate(9deg);" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="wrap" style="display: flex; flex-direction: column; gap: 32px;">
+      <div style="display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap;">
+        <h2 class="h2">Latest travel routes</h2>
+        <a href="/routes" style="font-weight: 600;">All routes →</a>
+      </div>
+      <div class="g3">{latest.map((r) => <RouteCard route={r} />)}</div>
+    </div>
+  </section>
+
+  <DownloadBand />
+</Base>
+
+<style>
+  .hero { padding: 96px 0 112px; }
+  .copy { display: flex; flex-direction: column; gap: 24px; }
+  .visual { position: relative; display: flex; justify-content: center; }
+  .visual .phone { transform: rotate(-6deg); }
+  .visual :global(.xcard) { position: absolute; }
+  @media (max-width: 640px) { .hero { padding: 56px 0 72px; } }
+</style>

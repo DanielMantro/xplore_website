@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import RouteCard from '../../components/RouteCard.astro';
+import DownloadBand from '../../components/DownloadBand.astro';
+import { sortByDate } from '../../lib/routes';
+
+const routes = sortByDate(await getCollection('routes'));
+---
+<Base
+  title="Xplore Routes — travel routes you can take into the app"
+  description="Hand-picked travel routes with stops, nights and the best time to go — from Japan's classic route to Iceland's Golden Circle. Soon available straight in the Xplore trip planner."
+>
+  <section class="section mapbg" style="background-image: url(/assets/images/world-map.jpg); padding-bottom: 64px;">
+    <div class="wrap" style="display: flex; flex-direction: column; gap: 18px; max-width: 820px; margin-left: max(0px, calc((100% - 1200px) / 2));">
+      <span class="eyebrow">Travel routes</span>
+      <h1 class="h1">Routes <span class="teal">worth collecting</span></h1>
+      <p class="lead">Hand-picked itineraries with every stop, how many nights to stay and the best months to go. Each route is built from Xplore cards — so you collect it as you travel.</p>
+    </div>
+  </section>
+
+  {/* TODO: filter chips (Region · Activity · Duration · In app) and the "How routes work" explainer (03-content/blog-index.md) */}
+  <section style="padding: 48px 0 96px;">
+    <div class="wrap g2" style="gap: 24px;">
+      {routes.map((r) => <RouteCard route={r} />)}
+    </div>
+  </section>
+
+  <DownloadBand />
+</Base>

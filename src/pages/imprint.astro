@@ -1,0 +1,17 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const page = (await getEntry('legal', 'imprint'))!;
+const { Content } = await render(page);
+---
+<Base title={page.data.title} description={page.data.description}>
+  <section class="section">
+    <div class="wrap">
+      <div class="legal">
+        <h1 class="h1">Imprint (Impressum)</h1>
+        <Content />
+      </div>
+    </div>
+  </section>
+</Base>
