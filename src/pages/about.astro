@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro';
+import StoreBadges from '../components/StoreBadges.astro';
+import { CONTACT_EMAIL, INSTAGRAM_HANDLE, INSTAGRAM_URL } from '../consts';
+import { ACTIVITY_LABELS } from '../lib/routes';
+import { APP_ID, FOUNDER_ID, ORG_ID, breadcrumbs } from '../lib/schema';
+
+// Facts page: plain, quotable statements for readers, press and AI answer engines.
+// Only claims from the brief's reference/data-facts.md; counts are rounded down so they stay true.
+const FACTS: [string, string][] = [
+  ['What it is', 'A travel map, travel tracker and trip planner that turns every place you visit into a collectible card.'],
+  ['Platforms', 'iPhone (iOS 15.1 or later) and Android'],
+  ['Price', 'Free to download. All 199 country cards are free. Extra bundles cost $0.99 (Cities, Islands & Regions, Wildlife) or $1.99 (Explorer), paid once. No subscription, no ads.'],
+  ['Cards', '900+ places and animals: countries, landmarks, islands & regions, wildlife, cities and events'],
+  ['Collections', '44 themed collections, each with Bronze, Silver, Gold and Platinum medals'],
+  ['Countries', '199 country cards, with the best months to visit each one, and the months to avoid'],
+  ['Rarities', 'Common (1 point), Uncommon (2), Rare (3) and Epic (4)'],
+  ['Activities', `${Object.keys(ACTIVITY_LABELS).length}: ${Object.values(ACTIVITY_LABELS).join(', ')}`],
+  ['Explorer levels', '11, from Newcomer to Grand Explorer'],
+  ['Account', 'Optional. You can start as a guest; a free account syncs your cards and unlocks photo scan, trips and friends.'],
+  ['Language', 'English'],
+  ['Made by', 'Daniel Feile, Cologne, Germany'],
+];
+
+const schema = [
+  {
+    '@type': 'AboutPage',
+    name: 'About Xplore',
+    url: new URL('/about', Astro.site).href,
+    about: { '@id': APP_ID },
+    mainEntity: { '@id': ORG_ID },
+  },
+  {
+    '@type': 'Person',
+    '@id': FOUNDER_ID,
+    name: 'Daniel Feile',
+    url: new URL('/about', Astro.site).href,
+    worksFor: { '@id': ORG_ID },
+    address: { '@type': 'PostalAddress', addressLocality: 'Köln', addressCountry: 'DE' },
+  },
+  breadcrumbs(['About', '/about']),
+];
+---
+<Base
+  title="About Xplore — facts about the travel map and trip planner app"
+  description="Xplore at a glance: what the app does, what it costs, how many cards and countries it has, and who makes it."
+  schema={schema}
+>
+  <section class="section">
+    <div class="wrap about">
+      <span class="eyebrow">About</span>
+      <h1 class="h1">About <span class="teal">Xplore</span></h1>
+      <p class="lead">Xplore is a free travel map, travel tracker and trip planner for iPhone and Android. Every place you've been becomes a collectible card, so your travels fill a world map and a collection at the same time.</p>
+
+      <h2 class="h2">Xplore at a glance</h2>
+      <dl class="panel facts">
+        {FACTS.map(([term, value]) => (
+          <div><dt>{term}</dt><dd>{value}</dd></div>
+        ))}
+      </dl>
+
+      <div class="legal">
+        <h2>How Xplore works</h2>
+        <p>You swipe through a deck of places: <strong>right</strong> if you've been there, <strong>up</strong> if it's a dream trip, <strong>left</strong> for not yet. Places you've been become cards on your world map and earn points, medals and explorer levels. You can also pick photos from past trips: Xplore matches their location to places on your phone, and the photos never leave it.</p>
+        <p>For your next trip, Xplore shows which places on your wishlist are at their best in each month, and the trip planner turns stops into a day-by-day itinerary you can plan together with friends. See <a href="/features">all features</a> or browse <a href="/routes">travel routes</a>.</p>
+
+        <h2 id="founder">Who makes Xplore</h2>
+        <p>Xplore is built and run by Daniel Feile in Cologne, Germany. It has no ads and no third-party tracking; the app collects only what it needs to run your collection (see the <a href="/privacy">privacy overview</a>). Legal details are in the <a href="/imprint">imprint</a>.</p>
+
+        <h2>Contact</h2>
+        <p>Email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> or follow <a href={INSTAGRAM_URL}>@{INSTAGRAM_HANDLE}</a> on Instagram.</p>
+      </div>
+
+      <StoreBadges />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .about { display: flex; flex-direction: column; gap: 24px; max-width: 880px; margin-left: max(0px, calc((100% - 1200px) / 2)); }
+  .about > .h2 { font-size: 32px; margin-top: 32px; }
+  .facts { margin: 0; padding: 8px 28px; }
+  .facts > div { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 24px; padding: 16px 0; border-bottom: 1px solid var(--xp-border); }
+  .facts > div:last-child { border-bottom: 0; }
+  .facts dt { font-weight: 600; color: var(--xp-text); }
+  .facts dd { margin: 0; color: #CBD5E1; }
+  .legal h2 { scroll-margin-top: 88px; }
+  .legal p + p { margin-top: 12px; }
+  @media (max-width: 640px) {
+    .facts { padding: 4px 20px; }
+    .facts > div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  }
+</style>

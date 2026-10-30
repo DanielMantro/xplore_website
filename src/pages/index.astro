@@ -6,10 +6,18 @@ import XCard from '../components/XCard.astro';
 import RouteCard from '../components/RouteCard.astro';
 import DownloadBand from '../components/DownloadBand.astro';
 import PhotoMatchCard from '../components/PhotoMatchCard.astro';
-import { APP_STORE_URL, INSTAGRAM_HANDLE, INSTAGRAM_URL, PLAY_STORE_URL, TRAILER_YOUTUBE_ID } from '../consts';
+import { APP_STORE_URL, INSTAGRAM_HANDLE, INSTAGRAM_URL, TRAILER_YOUTUBE_ID } from '../consts';
 import { sortByDate } from '../lib/routes';
+import { APP } from '../lib/schema';
+import { appStoreRating } from '../lib/rating';
 
 const latest = sortByDate(await getCollection('routes')).slice(0, 3);
+
+const rating = await appStoreRating();
+// The rating goes into the structured data only together with the visible line below (Google requires both).
+const app = rating
+  ? { ...APP, aggregateRating: { '@type': 'AggregateRating', ratingValue: rating.value, ratingCount: rating.count, bestRating: 5, worstRating: 1 } }
+  : APP;
 
 // Copy: the brief's 03-content/home.md.
 const STEPS = [
@@ -48,22 +56,12 @@ const HIGHLIGHTS = [
   { title: 'Medals & friends', text: 'Complete collections for Bronze to Platinum medals and compare maps with friends.', href: '/features#collect', icon: '<circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 7 5-3 5 3-1.5-7"/>' },
 ];
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'MobileApplication',
-  name: 'Xplore',
-  operatingSystem: 'iOS, Android',
-  applicationCategory: 'TravelApplication',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
-  installUrl: [APP_STORE_URL, PLAY_STORE_URL],
-};
 ---
 <Base
   title="Xplore — Travel Map, Tracker & Trip Planner App"
   description="Track the countries you've visited, collect 900+ places as cards and plan trips for the best time of year. Free travel map app for iPhone and Android."
+  schema={[app]}
 >
-  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-
   <!-- 1 Hero -->
   <section class="hero mapbg" style="background-image: url(/assets/images/world-map.jpg);">
     <div class="wrap g2">
@@ -73,6 +71,12 @@ const jsonLd = {
         <p class="lead">Xplore turns every trip into a collectible card. Track the countries you've visited, watch your world map fill in, and plan your next adventure for the perfect time of year.</p>
         <StoreBadges />
         <p class="small muted">Free · No sign-up needed · iPhone &amp; Android</p>
+        {rating && (
+          <a class="rating small" href={APP_STORE_URL}>
+            <span class="stars" aria-hidden="true">{'★'.repeat(Math.round(rating.value))}<span class="off">{'★'.repeat(5 - Math.round(rating.value))}</span></span>
+            <span>{rating.value.toFixed(1)} from {rating.count} ratings on the App Store</span>
+          </a>
+        )}
       </div>
       {/* Hero fan (brief: home.md › Hero): cards fanned behind the tilted phone, the Epic card in front. */}
       <div class="visual hide-m">
@@ -233,6 +237,10 @@ const jsonLd = {
 </script>
 
 <style>
+  .rating { display: inline-flex; align-items: center; gap: 8px; color: var(--xp-text-secondary); align-self: flex-start; }
+  .rating:hover { color: var(--xp-text); }
+  .rating .stars { color: var(--xp-accent); letter-spacing: 2px; }
+  .rating .stars .off { color: var(--xp-border); }
   .hero { padding: 96px 0 112px; }
   .hero .g2 { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); }
   .hero h1 { font-size: clamp(2.75rem, 5vw, 4rem); }

@@ -55,3 +55,22 @@ test('unknown pages return the 404 page', async ({ page }) => {
   expect(response?.status()).toBe(404);
   await expect(page.locator('h1')).toContainText("isn't on the map");
 });
+
+test('llms.txt links every page in the sitemap', async ({ request }) => {
+  const response = await request.get('/llms.txt');
+  expect(response.status()).toBe(200);
+  const text = await response.text();
+  for (const path of sitePages().filter((p) => !['/imprint', '/privacy/app', '/privacy/website'].includes(p))) {
+    expect(text, path).toContain(`https://xplore-mobileapp.de${path === '/' ? '/' : path})`);
+  }
+});
+
+test('every page has one valid schema.org graph with the organization', async ({ page }) => {
+  for (const path of sitePages()) {
+    await page.goto(path);
+    const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
+    expect(blocks, path).toHaveLength(1);
+    const graph = JSON.parse(blocks[0])['@graph'];
+    expect(graph.map((n: { '@type': string }) => n['@type']), path).toContain('Organization');
+  }
+});

@@ -5,6 +5,7 @@ import RouteCard from '../../components/RouteCard.astro';
 import DownloadBand from '../../components/DownloadBand.astro';
 import { INSTAGRAM_HANDLE, INSTAGRAM_URL } from '../../consts';
 import { ACTIVITY_LABELS, DURATIONS, IN_APP_LABELS, REGIONS, durationBucket, sortByDate } from '../../lib/routes';
+import { breadcrumbs } from '../../lib/schema';
 
 // Copy: the brief's 03-content/blog-index.md.
 const routes = sortByDate(await getCollection('routes'));
@@ -24,10 +25,29 @@ const STEPS = [
 ];
 
 const heroFan = routes.slice(0, 3);
+
+const schema = [
+  {
+    '@type': 'CollectionPage',
+    name: 'Xplore Routes',
+    url: new URL('/routes', Astro.site).href,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: routes.map((r, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: r.data.title,
+        url: new URL(`/routes/${r.data.slug}`, Astro.site).href,
+      })),
+    },
+  },
+  breadcrumbs(['Travel routes', '/routes']),
+];
 ---
 <Base
   title="Xplore Routes — travel routes you can take into the app"
   description="Hand-picked travel routes with stops, nights and the best time to go — from Japan's classic route to Iceland's Golden Circle. Soon available straight in the Xplore trip planner."
+  schema={schema}
 >
   <section class="section mapbg hero" style="background-image: url(/assets/images/world-map.jpg);">
     <div class="wrap g2">

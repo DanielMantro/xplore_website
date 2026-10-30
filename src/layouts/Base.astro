@@ -5,6 +5,7 @@ import '../styles/site.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { APP_STORE_ID, SITE_NAME } from '../consts';
+import { ORGANIZATION, WEBSITE } from '../lib/schema';
 
 interface Props {
   title: string;
@@ -16,8 +17,11 @@ interface Props {
   noindex?: boolean;
   // The 404 page is served at any missing URL, so it must not claim a canonical one.
   noCanonical?: boolean;
+  /** Page-specific schema.org nodes, added to the site-wide graph (organization and website). */
+  schema?: Record<string, unknown>[];
 }
-const { title, description, ogImage = '/assets/images/og-image.jpg', ogImageAlt = 'The Xplore app icon in front of a wall of travel photo cards', ogType = 'website', noindex = false, noCanonical = false } = Astro.props;
+const { title, description, ogImage = '/assets/images/og-image.jpg', ogImageAlt = 'The Xplore app icon in front of a wall of travel photo cards', ogType = 'website', noindex = false, noCanonical = false, schema = [] } = Astro.props;
+const jsonLd = { '@context': 'https://schema.org', '@graph': [ORGANIZATION, WEBSITE, ...schema] };
 // build.format 'file' gives pathnames like /features.html; the public URL is /features.
 const canonical = new URL(Astro.url.pathname.replace(/(\/index)?\.html$/, '') || '/', Astro.site);
 const ogImageUrl = new URL(ogImage, Astro.site);
@@ -48,6 +52,7 @@ const ogImageUrl = new URL(ogImage, Astro.site);
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <slot name="head" />
   </head>
   <body>

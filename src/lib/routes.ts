@@ -34,14 +34,17 @@ export const IN_APP_LABELS = {
   'coming-soon': 'Coming to the app',
 } as const;
 
-/** "Mar–May, Oct–Nov": collapses consecutive months into ranges. */
-export function monthRanges(months: readonly string[]): string {
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+/** "Mar–May, Oct–Nov" (or "March–May, October–November" with 'long'): collapses consecutive months into ranges. */
+export function monthRanges(months: readonly string[], style: 'short' | 'long' = 'short'): string {
+  const name = (i: number) => (style === 'long' ? MONTH_NAMES[i] : MONTHS[i]);
   const idx = months.map((m) => MONTHS.indexOf(m as (typeof MONTHS)[number])).sort((a, b) => a - b);
   const ranges: string[] = [];
   for (let i = 0; i < idx.length; i++) {
     const start = idx[i];
     while (idx[i + 1] === idx[i] + 1) i++;
-    ranges.push(start === idx[i] ? MONTHS[start] : `${MONTHS[start]}–${MONTHS[idx[i]]}`);
+    ranges.push(start === idx[i] ? name(start) : `${name(start)}–${name(idx[i])}`);
   }
   return ranges.join(', ');
 }

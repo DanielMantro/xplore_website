@@ -4,6 +4,7 @@ import DownloadBand from '../components/DownloadBand.astro';
 import PhotoMatchCard from '../components/PhotoMatchCard.astro';
 import { CONTACT_EMAIL } from '../consts';
 import { MONTHS } from '../lib/routes';
+import { breadcrumbs } from '../lib/schema';
 
 // Copy: the brief's 03-content/features.md. Layout: the design canvas's Features artboard.
 const MOVES = [
@@ -55,7 +56,6 @@ const FAQ = [
 ];
 
 const faqLd = {
-  '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: FAQ.map(({ q, a }) => ({
     '@type': 'Question',
@@ -69,9 +69,8 @@ const KYOTO = { best: ['Mar', 'Apr', 'May', 'Oct', 'Nov'], okay: ['Jun', 'Sep', 
 <Base
   title="Features — Xplore travel map, journal & trip planner"
   description="Swipe 900+ places, collect them as cards, see the best time to go, plan trips day by day, scan your photos for places you've been and relive your year as a story video."
+  schema={[faqLd, breadcrumbs(['Features', '/features'])]}
 >
-  <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqLd)} />
-
   <section class="hero mapbg" style="background-image: url(/assets/images/world-map.jpg);">
     <div class="wrap">
       <span class="eyebrow">Features</span>
