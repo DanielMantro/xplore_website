@@ -1,8 +1,15 @@
 ---
-// TODO before launch: replace with the official Apple and Google badge artwork (brief, open item 1).
+// Official badge artwork: Apple (developer.apple.com/app-store/marketing/guidelines) and
+// Google (play.google.com/intl/en_us/badges), the Play badge trimmed of its built-in padding.
 import { APP_STORE_URL, PLAY_STORE_URL } from '../consts';
 ---
 <div class="badges">
-  <a class="badge" href={APP_STORE_URL}><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><span class="b-small">Download on the</span><span class="b-big">App Store</span></span></a>
-  <a class="badge" href={PLAY_STORE_URL}><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5v17l14-8.5z"/></svg><span><span class="b-small">GET IT ON</span><span class="b-big">Google Play</span></span></a>
+  <a class="store-badge" href={APP_STORE_URL}><img src="/assets/brand/badges/app-store-badge.svg" alt="Download on the App Store" width="144" height="48"></a>
+  <a class="store-badge" href={PLAY_STORE_URL}><img src="/assets/brand/badges/google-play-badge.png" alt="Get it on Google Play" width="160" height="48"></a>
 </div>
+
+<style>
+  .store-badge { display: block; border-radius: 9px; }
+  .store-badge img { display: block; height: 48px; width: auto; }
+  .store-badge:focus-visible { outline: 2px solid var(--xp-tint); outline-offset: 3px; }
+</style>
