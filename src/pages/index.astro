@@ -7,7 +7,7 @@ import RouteCard from '../components/RouteCard.astro';
 import DownloadBand from '../components/DownloadBand.astro';
 import PhotoMatchCard from '../components/PhotoMatchCard.astro';
 import ReviewCard from '../components/ReviewCard.astro';
-import { APP_STORE_URL, INSTAGRAM_HANDLE, INSTAGRAM_URL, TRAILER_YOUTUBE_ID } from '../consts';
+import { INSTAGRAM_HANDLE, INSTAGRAM_URL, TRAILER_YOUTUBE_ID } from '../consts';
 import { sortByDate } from '../lib/routes';
 import { APP } from '../lib/schema';
 import { aggregateRating, appStoreReviews, storeRatings } from '../lib/rating';
@@ -219,7 +219,6 @@ const HIGHLIGHTS = [
             <h2 class="h2">What travellers <span class="teal">say about Xplore</span></h2>
             {ratings.length > 0 && <p class="muted">{ratings.map((r) => `${r.value.toFixed(1)} out of 5 from ${r.count} ratings on ${r.store === 'App Store' ? 'the App Store' : 'Google Play'}`).join(' · ')}. Every written review, newest first.</p>}
           </div>
-          <a class="btn btn-secondary" href={APP_STORE_URL}>Rate Xplore</a>
         </div>
         <div class="g3 reviews">
           {reviews.slice(0, REVIEWS_SHOWN).map((r) => <ReviewCard review={r} languageName={r.lang && LANGUAGE_NAMES[r.lang]} />)}
