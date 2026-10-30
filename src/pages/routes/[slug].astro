@@ -1,12 +1,14 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import XCard from '../../components/XCard.astro';
 import MonthStrip from '../../components/MonthStrip.astro';
 import RouteCard from '../../components/RouteCard.astro';
 import StoreBadges from '../../components/StoreBadges.astro';
 import DownloadBand from '../../components/DownloadBand.astro';
+import RouteMap from '../../components/RouteMap.astro';
 import { ACTIVITY_LABELS, IN_APP_LABELS, monthRanges, sortByDate, type Route } from '../../lib/routes';
+import { splitRouteBody } from '../../lib/route-body';
 
 export async function getStaticPaths() {
   const routes = await getCollection('routes');
@@ -15,7 +17,8 @@ export async function getStaticPaths() {
 
 const { route, all } = Astro.props as { route: Route; all: Route[] };
 const { data } = route;
-const { Content } = await render(route);
+// Rendered body, split so each stop's card sits beside its "###" section.
+const segments = splitRouteBody(route.rendered?.html ?? '');
 const related = sortByDate(all.filter((r) => r.id !== route.id)).slice(0, 2);
 const published = data.publishedAt.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 
@@ -57,13 +60,24 @@ const jsonLd = {
         <div><div class="micro">Cards to collect</div><div class="h3">{data.stops.length}</div></div>
         <div class="when"><MonthStrip best={data.bestMonths} okay={data.okayMonths} /></div>
       </div>
-      {/* TODO: route map from stops[].lat/lng (brief: Route map) */}
+      <RouteMap stops={data.stops} />
     </div>
   </section>
 
   <div class="wrap">
     <article class="prose">
-      <Content />
+      {segments.map((segment) => {
+        if (segment.kind === 'html') return <Fragment set:html={segment.html} />;
+        const stop = data.stops[segment.index];
+        return (
+          <section class="stop" id={`stop-${segment.index + 1}`}>
+            <XCard name={stop.name} image={stop.image} type={stop.type} rarity={stop.rarity} />
+            <div class="stop-body">
+              <Fragment set:html={segment.html} />
+            </div>
+          </section>
+        );
+      })}
     </article>
   </div>
 
@@ -109,7 +123,16 @@ const jsonLd = {
   .glance { padding: 28px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
   .glance .h3 { margin-top: 4px; }
   .glance .when { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 10px; padding-top: 20px; border-top: 1px solid var(--xp-border); }
-  .prose { max-width: 68ch; padding-top: 48px; padding-bottom: 96px; font-size: 18px; line-height: 1.7; color: #CBD5E1; }
+  .stop { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 32px; align-items: start; margin: 40px 0; scroll-margin-top: 88px; }
+  .stop :global(.xcard) { width: 180px; }
+  .stop-body { display: flex; flex-direction: column; gap: 10px; }
+  .stop-body :global(h3) { margin: 0 !important; }
+  .stop-body :global(p) { margin: 0 !important; }
+  .prose :global(.tip) { margin-top: 6px; padding: 12px 16px; border-radius: 12px; background: var(--xp-tint-wash); border: 1px solid rgba(20,184,166,.3); font-size: 16px; color: #E2E8F0; }
+  .prose :global(.tip strong) { color: var(--xp-tint); }
+  /* Wide enough for card + text in the stops; plain paragraphs keep a readable line length. */
+  .prose > :global(p), .prose > :global(ul), .prose > :global(h2) { max-width: 68ch; }
+  .prose { max-width: 860px; padding-top: 48px; padding-bottom: 96px; font-size: 18px; line-height: 1.7; color: #CBD5E1; }
   .prose :global(h2) { font-size: 32px; line-height: 1.15; font-weight: 700; letter-spacing: -.02em; color: var(--xp-text); margin: 56px 0 16px; }
   .prose :global(h3) { font-size: 24px; font-weight: 600; color: var(--xp-text); margin: 40px 0 10px; }
   .prose :global(p), .prose :global(ul) { margin: 0 0 16px; }
@@ -124,6 +147,8 @@ const jsonLd = {
   @media (max-width: 640px) {
     .hero { min-height: 520px; }
     .glance { padding: 20px; }
+    .stop { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+    .stop :global(.xcard) { width: 150px; }
     /* Phones: one swipeable row instead of a tall grid. */
     .collect .cards { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -16px; padding: 12px 16px 20px; scrollbar-width: none; }
     .collect .cards :global(.xcard) { width: 150px; scroll-snap-align: start; }

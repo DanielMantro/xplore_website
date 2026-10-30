@@ -29,10 +29,10 @@ The UI tests use your installed Google Chrome locally (CI installs Chromium). If
 ## Layout
 | Path | What |
 |---|---|
-| `src/content/routes/*.md` | Route posts. Frontmatter follows the brief's `04-blog/_template.md` and is validated in `src/content.config.ts`. |
+| `src/content/routes/*.md` | Route posts. Frontmatter follows the brief's `04-blog/_template.md` and is validated in `src/content.config.ts`. One `###` section per stop, in order: the page puts each stop's card beside it, and the map is drawn from the stops' `lat`/`lng`. |
 | `src/content/legal/*.md` | Imprint and privacy copy (editor notes stripped). Rendered by `src/layouts/LegalPage.astro`. Both privacy policies are `noindex` until legally reviewed. |
 | `src/styles/` | `tokens.css` (design tokens), `site.css` (classes lifted from the design canvas), `fonts.css` (self-hosted Inter). |
-| `src/components/` | Header, Footer, DownloadBand, XCard (collectible card), RouteCard, MonthStrip, StoreBadges. |
+| `src/components/` | Header (with get-the-app popover), Footer, DownloadBand, XCard (collectible card), CardBack, PhotoMatchCard, RouteCard, RouteMap, MonthStrip, StoreBadges. |
 | `public/assets/` | Brand, card photos, store posters, app screenshots (webp only). |
 | `public/CNAME` | Custom domain for GitHub Pages. |
 
@@ -46,5 +46,5 @@ One-time setup: repo **Settings → Pages → Source: GitHub Actions**, then poi
 ## Status
 | Page | State |
 |---|---|
-| Home, features, privacy hub + both policies, route posts, `/routes`, imprint, 404, `/get` | Built |
-| To do | Route map, stop cards inline in route posts, `/routes` filters, explainer and "suggest a route" CTA |
+| All pages in the brief's sitemap | Built |
+| Waiting on content/legal | Legal review of the privacy policies (then remove `noindex`), Iceland Mar/Apr/Oct months, official route photos for Iceland and Italy |

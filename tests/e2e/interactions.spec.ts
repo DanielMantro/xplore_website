@@ -141,3 +141,80 @@ test('404 shows the card back', async ({ page }) => {
   await page.goto('/nowhere');
   await expect(page.getByRole('img', { name: 'Card back: an undiscovered place' })).toBeVisible();
 });
+
+test.describe('route post', () => {
+  test('map: one numbered pin and legend entry per stop, tooltip on focus', async ({ page }) => {
+    await page.goto('/routes/japan-classic-route');
+    const map = page.locator('.route-map');
+    await expect(map.locator('.pin')).toHaveCount(7);
+    await expect(map.locator('.legend li')).toHaveCount(7);
+    await expect(map).toContainText(/about [\d,]+ km between stops/);
+
+    const nara = map.getByRole('button', { name: /^6\. Nara/ });
+    await nara.focus();
+    await expect(nara.getByRole('tooltip')).toBeVisible();
+    await expect(nara.getByRole('tooltip')).toContainText('Rare');
+  });
+
+  test('stops: each section has its card, tips are callouts', async ({ page }) => {
+    await page.goto('/routes/japan-classic-route');
+    const stops = page.locator('.stop');
+    await expect(stops).toHaveCount(7);
+    await expect(stops.nth(0).locator('.xcard')).toContainText('Tokyo');
+    await expect(stops.nth(0).locator('h3')).toContainText('Tokyo');
+    await expect(stops.nth(5).locator('.xcard')).toHaveClass(/r-rare/);
+    await expect(page.locator('.prose .tip').first()).toContainText('Tip:');
+  });
+});
+
+test.describe('travel routes filters', () => {
+  const visibleTitles = (page: import('@playwright/test').Page) => page.locator('.list .item:visible .h3').allTextContents();
+  const chip = (page: import('@playwright/test').Page, group: string, name: string) =>
+    page.getByRole('group', { name: group }).getByRole('button', { name, exact: true });
+
+  test('filter by region, duration and status; empty state; reset', async ({ page }) => {
+    await page.goto('/routes');
+    await expect(page.locator('.list .item')).toHaveCount(3);
+    await expect(page.locator('.count')).toHaveText('3 routes');
+
+    await chip(page, 'Region', 'Asia').click();
+    await expect(chip(page, 'Region', 'Asia')).toHaveAttribute('aria-pressed', 'true');
+    await expect(chip(page, 'Region', 'All')).toHaveAttribute('aria-pressed', 'false');
+    expect(await visibleTitles(page)).toEqual(["Japan's classic route"]);
+    await expect(page.locator('.count')).toHaveText('1 route');
+
+    // Groups combine: Europe has Iceland (7 days) and Italy (11 days).
+    await chip(page, 'Region', 'Europe').click();
+    await chip(page, 'Duration', '1 week').click();
+    expect(await visibleTitles(page)).toEqual(["Iceland's Golden Circle"]);
+
+    await chip(page, 'Region', 'Africa').click();
+    await expect(page.locator('.list .item:visible')).toHaveCount(0);
+    await expect(page.locator('.empty')).toBeVisible();
+    await expect(page.locator('.empty')).toContainText('No route here yet');
+
+    await chip(page, 'Region', 'All').click();
+    expect((await visibleTitles(page)).sort()).toEqual(["Iceland's Golden Circle", "Japan's classic route"]);
+
+    await chip(page, 'Duration', 'All').click();
+    await chip(page, 'In the app', 'Available').click();
+    await expect(page.locator('.empty')).toBeVisible();
+    await chip(page, 'In the app', 'Coming soon').click();
+    await expect(page.locator('.list .item:visible')).toHaveCount(3);
+    await expect(page.locator('.empty')).toBeHidden();
+  });
+
+  test('filter by activity', async ({ page }) => {
+    await page.goto('/routes');
+    await chip(page, 'Activity', 'City & Culture').click();
+    expect((await visibleTitles(page)).sort()).toEqual(['Italian lakes & Dolomites', "Japan's classic route"]);
+  });
+
+  test('explainer and suggestion call to action', async ({ page }) => {
+    await page.goto('/routes');
+    await expect(page.getByRole('heading', { name: 'From article to itinerary' })).toBeVisible();
+    await expect(page.locator('.steps li')).toHaveCount(3);
+    await expect(page.getByRole('heading', { name: 'Got a route we should add?' })).toBeVisible();
+    await expect(page.locator('.cta').getByRole('link', { name: /@xplore_the_world_app/ })).toHaveAttribute('href', 'https://www.instagram.com/xplore_the_world_app');
+  });
+});

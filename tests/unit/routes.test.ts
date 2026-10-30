@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { monthRanges, nightsLabel, sortByDate, type Route } from '../../src/lib/routes';
+import { durationBucket, monthRanges, nightsLabel, sortByDate, type Route } from '../../src/lib/routes';
 
 describe('monthRanges', () => {
   it('collapses consecutive months into ranges', () => {
@@ -36,5 +36,19 @@ describe('sortByDate', () => {
     const input = [route('a', '2026-01-01'), route('b', '2026-06-01'), route('c', '2026-03-01')];
     expect(sortByDate(input).map((r) => r.id)).toEqual(['b', 'c', 'a']);
     expect(input.map((r) => r.id)).toEqual(['a', 'b', 'c']);
+  });
+});
+
+describe('durationBucket', () => {
+  it.each([
+    [2, 'weekend'],
+    [3, 'weekend'],
+    [7, '1-week'],
+    [10, '1-week'],
+    [11, '2-weeks'],
+    [17, '2-weeks'],
+    [21, '3-weeks'],
+  ])('%i days → %s', (days, bucket) => {
+    expect(durationBucket(days)).toBe(bucket);
   });
 });
