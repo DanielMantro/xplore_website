@@ -9,11 +9,15 @@ import { APP_STORE_ID, SITE_NAME } from '../consts';
 interface Props {
   title: string;
   description: string;
+  /** Share images are 1200×630 (the default and scripts/images.mjs output). */
   ogImage?: string;
+  ogImageAlt?: string;
   ogType?: 'website' | 'article';
   noindex?: boolean;
+  // The 404 page is served at any missing URL, so it must not claim a canonical one.
+  noCanonical?: boolean;
 }
-const { title, description, ogImage = '/assets/images/og-image.jpg', ogType = 'website', noindex = false } = Astro.props;
+const { title, description, ogImage = '/assets/images/og-image.jpg', ogImageAlt = 'The Xplore app icon in front of a wall of travel photo cards', ogType = 'website', noindex = false, noCanonical = false } = Astro.props;
 // build.format 'file' gives pathnames like /features.html; the public URL is /features.
 const canonical = new URL(Astro.url.pathname.replace(/(\/index)?\.html$/, '') || '/', Astro.site);
 const ogImageUrl = new URL(ogImage, Astro.site);
@@ -25,21 +29,24 @@ const ogImageUrl = new URL(ogImage, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {!noCanonical && <link rel="canonical" href={canonical} />}
     {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" type="image/svg+xml" href="/assets/brand/xplore-mark-small.svg" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/assets/brand/app-store-icon-1024.png" />
-    <link rel="preload" href="/fonts/Inter_400Regular.ttf" as="font" type="font/ttf" crossorigin />
-    <link rel="preload" href="/fonts/Inter_700Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/Inter_400Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/Inter_700Bold.woff2" as="font" type="font/woff2" crossorigin />
     <meta name="theme-color" content="#0F1117" />
     <meta name="apple-itunes-app" content={`app-id=${APP_STORE_ID}`} />
     <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    {!noCanonical && <meta property="og:url" content={canonical} />}
     <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <slot name="head" />
   </head>

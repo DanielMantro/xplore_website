@@ -9,7 +9,7 @@ const port = Number(process.argv[2] ?? 4322);
 const types = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json',
   '.xml': 'application/xml', '.txt': 'text/plain', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg',
-  '.webp': 'image/webp', '.ttf': 'font/ttf', '.ico': 'image/x-icon',
+  '.webp': 'image/webp', '.woff2': 'font/woff2', '.ico': 'image/x-icon',
 };
 
 const isFile = (p) => existsSync(p) && statSync(p).isFile();

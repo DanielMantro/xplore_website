@@ -12,10 +12,12 @@ interface Props {
   style?: string;
 }
 const { name, image, type, rarity, undiscovered = false, eager = false, class: className, style } = Astro.props;
+// Cards in /assets/cards have a 480 px copy (scripts/images.mjs); cards render at most 220 px wide.
+const small = image.startsWith('/assets/cards/') ? image.replace('/assets/cards/', '/assets/cards/480/') : undefined;
 const typeLabel = type === 'island' ? 'Island' : type[0].toUpperCase() + type.slice(1);
 ---
 <div class:list={['xcard', `r-${rarity.toLowerCase()}`, { undiscovered }, className]} style={style}>
-  <div class="photo"><img src={image} alt={`${name} — ${type}, ${rarity} card`} loading={eager ? 'eager' : 'lazy'} decoding="async"></div>
+  <div class="photo"><img src={small ?? image} srcset={small && `${small} 480w, ${image} 900w`} sizes={small && '220px'} width="480" height="720" alt={`${name} — ${type}, ${rarity} card`} loading={eager ? 'eager' : 'lazy'} decoding="async"></div>
   <span class={`type t-${type}`}>{typeLabel}</span>
   {undiscovered && <span class="undis">Undiscovered</span>}
   <span class="name">{name}</span>

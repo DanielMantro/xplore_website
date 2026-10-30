@@ -14,7 +14,7 @@ okayMonths: [May, Sep]
 avoidMonths: [Nov, Dec, Jan, Feb]
 heroImage: /assets/cards/gullfoss.webp
 heroAlt: "Gullfoss waterfall plunging into its canyon"
-publishedAt: 2026-11-15
+publishedAt: 2026-10-30
 author: Daniel Feile
 collectNote: "You also get the Iceland country card. Gullfoss and the geysers are also part of the Nature Sights collection, and Eyjafjallajökull and Fagradalsfjall count towards Volcanoes."
 stops:

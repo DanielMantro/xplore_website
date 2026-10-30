@@ -14,7 +14,7 @@ okayMonths: [Jun, Sep, Dec]
 avoidMonths: [Jul, Aug, Jan, Feb]
 heroImage: /assets/cards/kyoto.webp
 heroAlt: "A pagoda above Kyoto's rooftops with mountains behind"
-publishedAt: 2026-11-15
+publishedAt: 2026-10-30
 author: Daniel Feile
 collectNote: "You also get the Japan country card. This route is already in the Xplore app as an example trip, and it's coming to the trip planner so you can load it into your own trip."
 stops:

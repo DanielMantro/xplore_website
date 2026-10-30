@@ -25,6 +25,8 @@ const routes = defineCollection({
     heroImage: z.string(),
     heroAlt: z.string(),
     publishedAt: z.coerce.date(),
+    /** Set when a post is substantially revised; feeds dateModified and the sitemap lastmod. */
+    updatedAt: z.coerce.date().optional(),
     author: z.string(),
     /** Extra line under "Collect this route", e.g. the bonus country card. */
     collectNote: z.string().optional(),

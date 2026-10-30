@@ -14,7 +14,7 @@ okayMonths: [Apr, Jul, Aug, Oct]
 avoidMonths: [Nov, Dec, Jan, Feb, Mar]
 heroImage: /assets/cards/lake-como.webp
 heroAlt: "Villas on the shore of Lake Como below green mountains"
-publishedAt: 2026-11-15
+publishedAt: 2026-10-30
 author: Daniel Feile
 collectNote: "You also get the Italy country card. The Dolomites also count towards Iconic Mountains and Nature Sights."
 stops:

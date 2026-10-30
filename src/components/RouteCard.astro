@@ -7,7 +7,7 @@ interface Props {
 const { data } = Astro.props.route;
 ---
 <a class="rcard" href={`/routes/${data.slug}`}>
-  <img src={data.heroImage} alt={data.heroAlt} loading="lazy" decoding="async">
+  <img src={data.heroImage} alt={data.heroAlt} width="900" height="1350" loading="lazy" decoding="async">
   <div class="top">
     <span class="tag activity">{ACTIVITY_LABELS[data.activities[0]]}{data.activities.length > 1 && ` +${data.activities.length - 1}`}</span>
     {data.inApp && <span class:list={['tag', 'app', { solid: data.inApp === 'available' }]}>{IN_APP_LABELS[data.inApp]}</span>}

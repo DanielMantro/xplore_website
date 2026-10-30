@@ -72,3 +72,18 @@ describe.each(routes)('$file', ({ file, data, body }) => {
     expect(body.match(/^### /gm)?.length).toBe(data.stops.length);
   });
 });
+
+// Derived images from scripts/images.mjs: rerun it after adding a card or a route post.
+describe('generated images', () => {
+  it.each(routes)('$file has a share image', ({ data }) => {
+    expect(existsSync(publicFile(`assets/og/${data.slug}.jpg`))).toBe(true);
+  });
+
+  it.each(readdirSync('public/assets/cards').filter((f) => f.endsWith('.webp')))('%s has a 480 px copy', (file) => {
+    expect(existsSync(publicFile(`assets/cards/480/${file}`))).toBe(true);
+  });
+
+  it.each(routes)('$file is not dated in the future', ({ data }) => {
+    expect(new Date(data.publishedAt).getTime()).toBeLessThanOrEqual(Date.now());
+  });
+});

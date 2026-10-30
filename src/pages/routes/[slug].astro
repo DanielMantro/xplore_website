@@ -27,16 +27,17 @@ const jsonLd = {
   '@type': 'Article',
   headline: data.title,
   description: data.summary,
-  image: new URL(data.heroImage, Astro.site).href,
+  image: [new URL(`/assets/og/${data.slug}.jpg`, Astro.site).href, new URL(data.heroImage, Astro.site).href],
   datePublished: data.publishedAt.toISOString(),
+  dateModified: (data.updatedAt ?? data.publishedAt).toISOString(),
   author: { '@type': 'Person', name: data.author },
 };
 ---
-<Base title={`${data.title} — Xplore Routes`} description={data.summary} ogImage={data.heroImage} ogType="article">
+<Base title={`${data.title} — Xplore Routes`} description={data.summary} ogImage={`/assets/og/${data.slug}.jpg`} ogImageAlt={data.heroAlt} ogType="article">
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
   <section class="hero">
-    <img src={data.heroImage} alt={data.heroAlt}>
+    <img src={data.heroImage} alt={data.heroAlt} width="900" height="1350" fetchpriority="high">
     <div class="scrim"></div>
     <div class="wrap">
       <a href="/routes" class="back">← All travel routes</a>
@@ -47,7 +48,7 @@ const jsonLd = {
       </div>
       <h1 class="display">{data.title}</h1>
       <p class="lead">{data.summary}</p>
-      <span class="small muted">By {data.author} · {published}</span>
+      <span class="small muted">By {data.author} · <time datetime={data.publishedAt.toISOString().slice(0, 10)}>{published}</time></span>
     </div>
   </section>
 
