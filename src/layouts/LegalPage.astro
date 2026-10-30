@@ -58,6 +58,8 @@ const { title, description, last_updated, summary } = entry.data;
     headings.forEach((h, i) => {
       if (h && h.getBoundingClientRect().top <= line) current = i;
     });
+    // Short last sections never reach the line; at the bottom of the page, they're the current one.
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 8) current = headings.length - 1;
     links.forEach((a, i) => a.classList.toggle('on', i === current));
   };
   if (links.length) {

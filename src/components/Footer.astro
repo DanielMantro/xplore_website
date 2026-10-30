@@ -1,5 +1,5 @@
 ---
-import { CONTACT_EMAIL, INSTAGRAM_URL } from '../consts';
+import { INSTAGRAM_URL } from '../consts';
 import StoreBadges from './StoreBadges.astro';
 ---
 <footer class="site-footer">
@@ -28,8 +28,9 @@ import StoreBadges from './StoreBadges.astro';
         </nav>
         <nav aria-label="Follow">
           <span class="micro">Follow</span>
-          <a href={INSTAGRAM_URL}>Instagram</a>
-          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+          <a class="social" href={INSTAGRAM_URL} aria-label="Xplore on Instagram" title="Instagram">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg>
+          </a>
         </nav>
       </div>
     </div>
@@ -51,5 +52,7 @@ import StoreBadges from './StoreBadges.astro';
   .links { display: flex; flex-wrap: wrap; gap: 64px; }
   nav { display: flex; flex-direction: column; gap: 12px; font-size: 15px; }
   nav a { color: #CBD5E1; }
+  .social { width: 40px; height: 40px; margin-left: -8px; display: inline-flex; align-items: center; justify-content: center; border-radius: 10px; }
+  .social:hover { color: var(--xp-tint); background: var(--xp-tint-wash); }
   .bottom { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--xp-border); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 14px; color: var(--xp-text-muted); }
 </style>
