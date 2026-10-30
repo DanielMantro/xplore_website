@@ -313,9 +313,9 @@ const HIGHLIGHTS = [
   .carousel ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 24px; }
   .carousel::-webkit-scrollbar { display: none; }
   .carousel:focus-visible { outline: 2px solid var(--xp-tint); outline-offset: 4px; border-radius: 20px; }
-  /* Cards keep their own height, so a long review doesn't stretch the short ones. */
-  .carousel ul { align-items: flex-start; }
-  .carousel li { flex: 0 0 calc((100% - 48px) / 3); scroll-snap-align: start; }
+  /* Cards share the row's height (the date sits at the bottom), so short reviews leave no gap below them. */
+  .carousel li { flex: 0 0 calc((100% - 48px) / 3); scroll-snap-align: start; display: flex; }
+  .carousel li > :global(.review) { flex: 1; }
   .carousel-nav { display: flex; gap: 12px; align-self: flex-end; }
   .carousel-nav[hidden] { display: none; }
   .carousel-nav .btn { width: 48px; padding: 0; }
@@ -350,7 +350,7 @@ const HIGHLIGHTS = [
   .highlight:hover { color: var(--xp-text); border-color: var(--xp-tint); transform: translateY(-2px); }
   .highlight .more { margin-top: auto; font-size: 14px; font-weight: 600; color: var(--xp-tint); }
 
-  .pricing { padding: 0 0 24px; }
+  .pricing { padding: 72px 0 24px; }
   .strip { padding: 40px 48px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center; justify-content: space-between; }
 
   .insta { align-self: flex-start; }

@@ -17,12 +17,15 @@ const date = review.date.toLocaleDateString('en-GB', { day: 'numeric', month: 's
     {review.title && <h3 class="title">{review.title}</h3>}
     <p>{review.body}</p>
   </div>
+  {/* Collapsed so the card stays short; the text is still in the HTML for crawlers. */}
   {review.translation && (
-    <div class="translation">
-      <span class="micro">Translated from {languageName ?? review.lang}</span>
-      {review.translation.title && <strong>{review.translation.title}</strong>}
-      <p>{review.translation.body}</p>
-    </div>
+    <details class="translation">
+      <summary class="micro">Translation from {languageName ?? review.lang}</summary>
+      <div lang="en">
+        {review.translation.title && <strong>{review.translation.title}</strong>}
+        <p>{review.translation.body}</p>
+      </div>
+    </details>
   )}
   <footer class="small muted"><time datetime={review.date.toISOString().slice(0, 10)}>{date}</time> · App Store</footer>
 </article>
@@ -34,8 +37,16 @@ const date = review.date.toLocaleDateString('en-GB', { day: 'numeric', month: 's
   .original { display: flex; flex-direction: column; gap: 6px; }
   .title { margin: 0; font-size: 18px; line-height: 1.35; font-weight: 600; color: var(--xp-text); }
   p { margin: 0; color: #CBD5E1; white-space: pre-line; overflow-wrap: anywhere; }
-  .translation { display: flex; flex-direction: column; gap: 4px; padding-left: 12px; border-left: 2px solid var(--xp-border); }
+  .translation summary { cursor: pointer; width: fit-content; color: var(--xp-tint); }
+  .translation > div { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; padding-left: 12px; border-left: 2px solid var(--xp-border); }
   .translation strong { color: var(--xp-text); font-weight: 600; }
   .translation p { color: var(--xp-text-secondary); }
   footer { margin-top: auto; padding-top: 4px; }
+  @media (max-width: 640px) {
+    .review { padding: 20px; gap: 12px; }
+    /* Phones: long reviews end in an ellipsis so the carousel stays short; the full text stays in the HTML. */
+    .original :is(.title, p) { display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+    .original .title { -webkit-line-clamp: 2; line-clamp: 2; }
+    .original p { -webkit-line-clamp: 4; line-clamp: 4; }
+  }
 </style>
