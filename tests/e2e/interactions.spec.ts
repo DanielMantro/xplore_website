@@ -97,3 +97,47 @@ test('privacy policies stay out of search engines until reviewed', async ({ page
   await page.goto('/features');
   await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
 });
+
+test.describe('get the app', () => {
+  test('desktop: popover with QR code and badges, closes with Escape', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'desktop only');
+    await page.goto('/');
+    const popover = page.locator('#get-app');
+    await expect(popover).toBeHidden();
+    await page.getByRole('banner').getByRole('button', { name: 'Get the app' }).click();
+    await expect(popover).toBeVisible();
+    await expect(popover.getByRole('img', { name: /QR code/ }).locator('svg')).toBeVisible();
+    await expect(popover.getByRole('link', { name: 'Get it on Google Play' })).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(popover).toBeHidden();
+  });
+
+  test('phones: links straight to /get', async ({ page, isMobile }) => {
+    test.skip(!isMobile, 'mobile only');
+    await page.goto('/');
+    await expect(page.getByRole('banner').getByRole('link', { name: 'Get the app' })).toHaveAttribute('href', '/get');
+  });
+});
+
+test('cards lift and glow on hover', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'no hover on touch screens');
+  await page.goto('/routes/japan-classic-route');
+  const card = page.locator('.collect .xcard').first();
+  const shadow = () => card.evaluate((el) => getComputedStyle(el).boxShadow);
+  const before = await shadow();
+  await card.hover();
+  await expect(card).toHaveCSS('translate', '0px -4px');
+  expect(await shadow()).not.toBe(before);
+});
+
+test('home hero: four cards fanned around the phone, the Epic card in front', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'the fan is desktop only');
+  await page.goto('/');
+  await expect(page.locator('.hero .visual .xcard')).toHaveCount(4);
+  await expect(page.locator('.hero .visual .xcard.front')).toHaveClass(/r-epic/);
+});
+
+test('404 shows the card back', async ({ page }) => {
+  await page.goto('/nowhere');
+  await expect(page.getByRole('img', { name: 'Card back: an undiscovered place' })).toBeVisible();
+});

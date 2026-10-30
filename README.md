@@ -47,4 +47,4 @@ One-time setup: repo **Settings → Pages → Source: GitHub Actions**, then poi
 | Page | State |
 |---|---|
 | Home, features, privacy hub + both policies, route posts, `/routes`, imprint, 404, `/get` | Built |
-| To do | Route map, stop cards inline in route posts, `/routes` filters + explainer, header "Get the app" popover with QR code |
+| To do | Route map, stop cards inline in route posts, `/routes` filters, explainer and "suggest a route" CTA |

@@ -1,0 +1,30 @@
+---
+// The back of a collectible card: an undiscovered place (brief: 03-content/404.md).
+interface Props {
+  width?: number;
+}
+const { width = 220 } = Astro.props;
+---
+<div class="xcard r-common card-back" style={`width: ${width}px;`} role="img" aria-label="Card back: an undiscovered place">
+  <div class="photo">
+    <svg class="compass" viewBox="0 0 120 120" aria-hidden="true">
+      <circle cx="60" cy="60" r="44" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".45" />
+      <circle cx="60" cy="60" r="34" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 5" opacity=".45" />
+      <path d="M60 8 68 52 60 60 52 52Z M60 112 52 68 60 60 68 68Z M8 60 52 52 60 60 52 68Z M112 60 68 68 60 60 68 52Z" fill="currentColor" opacity=".9" />
+      <path d="M60 30 64 56 60 60 56 56Z M60 90 56 64 60 60 64 64Z M30 60 56 56 60 60 56 64Z M90 60 64 64 60 60 64 56Z" fill="currentColor" opacity=".45" transform="rotate(45 60 60)" />
+      <circle cx="60" cy="60" r="13" fill="#2D3347" stroke="currentColor" stroke-width="1.5" />
+      <text x="60" y="66" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="17" font-weight="700" fill="currentColor">?</text>
+    </svg>
+  </div>
+  <span class="undis">Undiscovered</span>
+  <span class="name">Undiscovered place</span>
+  <div class="foot">???</div>
+</div>
+
+<style>
+  .card-back .photo { background: #2D3347; display: flex; align-items: center; justify-content: center; }
+  /* Sand inner stroke, inset from the frame. */
+  .card-back .photo::before { content: ""; position: absolute; inset: 10px; border: 1.5px solid #D4A574; border-radius: 10px; opacity: .7; }
+  .card-back .compass { width: 62%; color: #D4A574; position: relative; }
+  .card-back .name { color: #CBD5E1; font-size: 17px; }
+</style>

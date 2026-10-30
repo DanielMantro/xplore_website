@@ -74,10 +74,13 @@ const jsonLd = {
         <StoreBadges />
         <p class="small muted">Free · No sign-up needed · iPhone &amp; Android</p>
       </div>
+      {/* Hero fan (brief: home.md › Hero): cards fanned behind the tilted phone, the Epic card in front. */}
       <div class="visual hide-m">
-        <div class="phone"><img src="/assets/screenshots/app-card-detail-fiji.webp" alt="Xplore card detail screen for Fiji"></div>
-        <XCard name="Kyoto" image="/assets/cards/kyoto.webp" type="city" rarity="Common" eager style="left: -10px; top: 250px; width: 170px; transform: rotate(-12deg);" />
-        <XCard name="Polar Bear" image="/assets/cards/polar-bear.webp" type="wildlife" rarity="Epic" eager style="right: -10px; top: 280px; width: 190px; transform: rotate(9deg);" />
+        <XCard name="Kyoto" image="/assets/cards/kyoto.webp" type="city" rarity="Common" eager style="left: -36px; top: 40px; width: 160px; transform: rotate(-14deg);" />
+        <XCard name="Kilauea" image="/assets/cards/kilauea.webp" type="landmark" rarity="Uncommon" eager style="left: -12px; top: 330px; width: 160px; transform: rotate(-6deg);" />
+        <XCard name="Machu Picchu" image="/assets/cards/machu-picchu.webp" type="landmark" rarity="Uncommon" eager style="right: -56px; top: 30px; width: 160px; transform: rotate(13deg);" />
+        <div class="phone"><img src="/assets/screenshots/app-card-detail-fiji.webp" alt="Xplore card detail screen for Fiji" width="600" height="1305"></div>
+        <XCard name="Polar Bear" image="/assets/cards/polar-bear.webp" type="wildlife" rarity="Epic" eager class="front" style="right: -40px; top: 330px; width: 190px; transform: rotate(9deg);" />
       </div>
     </div>
   </section>
@@ -234,9 +237,10 @@ const jsonLd = {
   .hero .g2 { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); }
   .hero h1 { font-size: clamp(2.75rem, 5vw, 4rem); }
   .copy { display: flex; flex-direction: column; gap: 24px; }
-  .visual { position: relative; display: flex; justify-content: center; }
-  .visual .phone { transform: rotate(-6deg); }
+  .visual { position: relative; display: flex; justify-content: center; min-height: 640px; }
+  .visual .phone { position: relative; z-index: 1; width: 270px; transform: rotate(-6deg); }
   .visual :global(.xcard) { position: absolute; }
+  .visual :global(.xcard.front) { z-index: 2; }
 
   .stack { display: flex; flex-direction: column; gap: 56px; }
   .head { display: flex; flex-direction: column; gap: 14px; max-width: 720px; }

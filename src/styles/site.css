@@ -38,6 +38,13 @@ img { max-width: 100%; height: auto; }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 24px; border-radius: 999px; font: 600 16px/1 "Inter", sans-serif; border: 1px solid transparent; white-space: nowrap; }
 a.btn-primary, .btn-primary { background: var(--xp-tint); color: #0F1117; }
 a.btn-secondary, .btn-secondary { background: var(--xp-surface); color: var(--xp-text); border-color: var(--xp-border); }
+/* Hover/press (brief: Buttons): primary darkens, others lift 1px; everything presses to 97%. */
+.btn { cursor: pointer; transition: background-color var(--xp-dur) var(--xp-ease), border-color var(--xp-dur), box-shadow var(--xp-dur), translate var(--xp-dur) var(--xp-ease), scale 120ms var(--xp-ease); }
+.btn-primary:hover { background: var(--xp-tint-strong); color: #0F1117; }
+.btn-secondary:hover { color: var(--xp-text); border-color: #3D4560; translate: 0 -1px; box-shadow: var(--xp-shadow-md); }
+.btn:active { scale: var(--xp-press-scale-button); }
+.btn:focus-visible { outline: 2px solid var(--xp-tint); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .btn { transition: none; } .btn-secondary:hover { translate: none; } .btn:active { scale: none; } }
 .btn-sm { height: 40px; padding: 0 18px; font-size: 15px; }
 
 /* store badges: artwork in StoreBadges.astro */
@@ -63,11 +70,23 @@ a.btn-secondary, .btn-secondary { background: var(--xp-surface); color: var(--xp
 .xcard .name { position: absolute; z-index: 1; left: 12px; right: 12px; bottom: 40px; font-size: 19px; line-height: 1.15; font-weight: 700; color: #fff; }
 .xcard .foot { height: 30px; padding: 0 12px; display: flex; align-items: center; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #fff; }
 .xcard.undiscovered .photo img { filter: grayscale(1); opacity: .5; }
+.xcard { box-shadow: var(--glow); transition: translate var(--xp-dur) var(--xp-ease), box-shadow var(--xp-dur) var(--xp-ease); }
+/* Foil sheen, swept once on hover (brief: Collectible card › Hover). */
+.xcard::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; background: linear-gradient(115deg, transparent 30%, rgba(20,184,166,.22) 42%, rgba(59,130,246,.26) 50%, rgba(168,85,247,.22) 58%, transparent 70%) 150% 0 / 250% 100% no-repeat; }
+@keyframes xp-sheen { from { opacity: 1; background-position: 150% 0; } to { opacity: 1; background-position: -50% 0; } }
+@media (hover: hover) {
+  .xcard:hover { box-shadow: var(--glow-hover); }
+}
+/* `translate` composes with the inline `transform: rotate()` used for card fans. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .xcard:hover { translate: 0 -4px; }
+  .xcard:hover::after { animation: xp-sheen 400ms ease-out 1; }
+}
 .xcard .undis { position: absolute; z-index: 1; left: 12px; bottom: 72px; padding: 3px 8px; border-radius: 999px; font-size: 11px; color: #cbd5e1; border: 1px solid rgba(255,255,255,.25); background: rgba(0,0,0,.35); }
-.r-common { border-color: rgba(156,163,175,.56); box-shadow: 0 4px 14px rgba(156,163,175,.35); } .r-common .foot { background: linear-gradient(90deg,#9CA3AF,#6B7280,#4B5563); }
-.r-uncommon { border-color: rgba(52,211,153,.56); box-shadow: 0 4px 14px rgba(52,211,153,.4); } .r-uncommon .foot { background: linear-gradient(90deg,#34D399,#059669,#047857); }
-.r-rare { border-color: rgba(96,165,250,.6); box-shadow: 0 4px 16px rgba(96,165,250,.45); } .r-rare .foot { background: linear-gradient(90deg,#60A5FA,#2563EB,#1D4ED8); }
-.r-epic { border-color: rgba(192,132,252,.7); box-shadow: 0 6px 28px rgba(192,132,252,.55); } .r-epic .foot { background: linear-gradient(90deg,#C084FC,#9333EA,#7E22CE); }
+.r-common { border-color: rgba(156,163,175,.56); --glow: 0 4px 14px rgba(156,163,175,.35); --glow-hover: 0 10px 26px rgba(156,163,175,.52); } .r-common .foot { background: linear-gradient(90deg,#9CA3AF,#6B7280,#4B5563); }
+.r-uncommon { border-color: rgba(52,211,153,.56); --glow: 0 4px 14px rgba(52,211,153,.4); --glow-hover: 0 10px 26px rgba(52,211,153,.6); } .r-uncommon .foot { background: linear-gradient(90deg,#34D399,#059669,#047857); }
+.r-rare { border-color: rgba(96,165,250,.6); --glow: 0 4px 16px rgba(96,165,250,.45); --glow-hover: 0 10px 30px rgba(96,165,250,.68); } .r-rare .foot { background: linear-gradient(90deg,#60A5FA,#2563EB,#1D4ED8); }
+.r-epic { border-color: rgba(192,132,252,.7); --glow: 0 6px 28px rgba(192,132,252,.55); --glow-hover: 0 12px 42px rgba(192,132,252,.8); } .r-epic .foot { background: linear-gradient(90deg,#C084FC,#9333EA,#7E22CE); }
 .t-country { background: #3B82F6; } .t-landmark { background: #F59E0B; } .t-wildlife { background: #10B981; }
 .t-event { background: #8B5CF6; } .t-island { background: #06B6D4; } .t-city { background: #F97316; }
 

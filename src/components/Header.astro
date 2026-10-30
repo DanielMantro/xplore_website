@@ -1,7 +1,10 @@
 ---
-import { NAV } from '../consts';
+import QRCode from 'qrcode';
+import { NAV, SITE_URL } from '../consts';
 import StoreBadges from './StoreBadges.astro';
 const current = Astro.url.pathname;
+// Built once at build time; /get sends phones to the right store.
+const qr = await QRCode.toString(`${SITE_URL}/get`, { type: 'svg', margin: 0, errorCorrectionLevel: 'M', color: { dark: '#0F1117', light: '#FFFFFF' } });
 ---
 <header class="site-header">
   <div class="wrap bar">
@@ -15,11 +18,20 @@ const current = Astro.url.pathname;
       ))}
     </nav>
     <div class="actions">
-      {/* TODO: desktop popover with badges + QR code to /get (brief: 01-structure.md › Header) */}
-      <a class="btn btn-primary btn-sm" href="/get">Get the app</a>
+      {/* Desktop: popover with a QR code and both badges. Phones: straight to the right store via /get. */}
+      <button class="btn btn-primary btn-sm hide-m" popovertarget="get-app">Get the app</button>
+      <a class="btn btn-primary btn-sm show-m" href="/get">Get the app</a>
       <button class="show-m burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
+    </div>
+  </div>
+  <div id="get-app" class="get-app" popover aria-label="Get the app">
+    <div class="qr" set:html={qr} role="img" aria-label="QR code linking to xplore-mobileapp.de/get" />
+    <div class="get-copy">
+      <strong>Scan with your phone</strong>
+      <p class="small muted">Opens the App Store or Google Play, whichever fits your phone.</p>
+      <StoreBadges />
     </div>
   </div>
   <div id="mobile-menu" class="sheet" hidden>
@@ -57,6 +69,14 @@ const current = Astro.url.pathname;
   nav a[aria-current='page'] { color: var(--xp-tint); }
   .actions { display: flex; align-items: center; gap: 10px; }
   .burger { width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--xp-border); background: var(--xp-surface); color: var(--xp-text); align-items: center; justify-content: center; padding: 0; cursor: pointer; }
+  /* Native popover: top layer, light dismiss and Escape for free. Aligned under the button, inside the page container. */
+  .get-app { position: fixed; inset: 76px max(16px, calc((100vw - 1200px) / 2 + 32px)) auto auto; margin: 0; padding: 20px; width: 400px; display: none; gap: 20px; align-items: center; background: var(--xp-surface-elevated); color: var(--xp-text); border: 1px solid var(--xp-border); border-radius: 20px; box-shadow: 0 24px 60px rgba(0,0,0,.5); }
+  .get-app:popover-open { display: flex; }
+  .qr { flex: none; width: 128px; padding: 10px; background: #fff; border-radius: 12px; }
+  .qr :global(svg) { display: block; width: 100%; height: auto; }
+  .get-copy { display: flex; flex-direction: column; gap: 8px; }
+  .get-copy :global(.store-badge img) { height: 36px; }
+  .get-copy :global(.badges) { gap: 8px; margin-top: 4px; }
   .sheet { position: fixed; inset: 64px 0 0; background: var(--xp-surface); padding: 32px 16px; display: flex; flex-direction: column; gap: 32px; }
   .sheet[hidden] { display: none; }
   .sheet nav { display: flex; flex-direction: column; gap: 20px; font-size: 22px; font-weight: 600; }

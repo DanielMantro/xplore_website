@@ -1,16 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
+import CardBack from '../components/CardBack.astro';
 ---
 <Base title="Page not found — Xplore" description="This place isn't on the map yet." noindex>
   <section class="section mapbg" style="background-image: url(/assets/images/world-map.jpg);">
     <div class="wrap nf">
-      {/* TODO: card back with compass star instead of a photo (03-content/404.md) */}
-      <div class="xcard undiscovered r-common" style="width: 200px;">
-        <div class="photo"><img src="/assets/cards/iceland.webp" alt=""></div>
-        <span class="undis">Undiscovered</span>
-        <span class="name">???</span>
-        <div class="foot">Undiscovered place</div>
-      </div>
+      <CardBack width={200} />
       <h1 class="h1">This place isn't on the map <span class="teal">yet</span>.</h1>
       <p class="lead">The page you're looking for has moved or never existed. Plenty of other places are waiting to be discovered.</p>
       <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
