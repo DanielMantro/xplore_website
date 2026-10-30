@@ -3,9 +3,12 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { APP_STORE_URL, CONTACT_EMAIL, INSTAGRAM_URL, PLAY_STORE_URL, SITE_URL } from '../consts';
 import { monthRanges, sortByDate } from '../lib/routes';
+import { storeRatings } from '../lib/rating';
 
 export const GET: APIRoute = async () => {
   const routes = sortByDate(await getCollection('routes'));
+  const ratings = await storeRatings();
+  const ratingLine = ratings.map((r) => `\n- Rated ${r.value.toFixed(1)} out of 5 from ${r.count} ratings on ${r.store === 'App Store' ? 'the App Store' : 'Google Play'}. Reviews: ${SITE_URL}/#reviews`).join('');
   const body = `# Xplore
 
 > Xplore is a free travel map, travel tracker and trip planner app for iPhone and Android. Every place you've been becomes a collectible card: track the countries you've visited, collect 900+ places in 44 collections, and plan trips for the best time of year.
@@ -16,7 +19,7 @@ Key facts:
 - Best months to visit (and months to avoid) for 199 countries, per activity (7 activities).
 - Photo scan matches travel photos to places on the device; photos never leave the phone.
 - Day-by-day trip planner, shareable with friends. Guest mode: no sign-up needed to start.
-- Made by Daniel Feile in Cologne, Germany. Contact: ${CONTACT_EMAIL}
+- Made by Daniel Feile in Cologne, Germany. Contact: ${CONTACT_EMAIL}${ratingLine}
 
 ## Pages
 - [Home](${SITE_URL}/): what Xplore is and how it works

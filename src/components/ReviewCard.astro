@@ -1,0 +1,41 @@
+---
+// One App Store review, as written. Non-English reviews keep the original (with its lang) and add a labelled translation.
+import type { Review } from '../lib/rating';
+
+interface Props {
+  review: Review;
+  languageName?: string;
+}
+const { review, languageName } = Astro.props;
+const date = review.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+---
+<article class="panel review">
+  <span class="stars" role="img" aria-label={`${review.rating} out of 5 stars`}>
+    {'★'.repeat(review.rating)}<span class="off">{'★'.repeat(5 - review.rating)}</span>
+  </span>
+  <div lang={review.lang} class="original">
+    {review.title && <h3 class="title">{review.title}</h3>}
+    <p>{review.body}</p>
+  </div>
+  {review.translation && (
+    <div class="translation">
+      <span class="micro">Translated from {languageName ?? review.lang}</span>
+      {review.translation.title && <strong>{review.translation.title}</strong>}
+      <p>{review.translation.body}</p>
+    </div>
+  )}
+  <footer class="small muted"><time datetime={review.date.toISOString().slice(0, 10)}>{date}</time> · App Store</footer>
+</article>
+
+<style>
+  .review { padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+  .stars { color: var(--xp-accent); letter-spacing: 2px; }
+  .stars .off { color: var(--xp-border); }
+  .original { display: flex; flex-direction: column; gap: 6px; }
+  .title { margin: 0; font-size: 18px; line-height: 1.35; font-weight: 600; color: var(--xp-text); }
+  p { margin: 0; color: #CBD5E1; white-space: pre-line; overflow-wrap: anywhere; }
+  .translation { display: flex; flex-direction: column; gap: 4px; padding-left: 12px; border-left: 2px solid var(--xp-border); }
+  .translation strong { color: var(--xp-text); font-weight: 600; }
+  .translation p { color: var(--xp-text-secondary); }
+  footer { margin-top: auto; padding-top: 4px; }
+</style>

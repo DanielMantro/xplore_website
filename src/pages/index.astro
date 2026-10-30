@@ -6,18 +6,38 @@ import XCard from '../components/XCard.astro';
 import RouteCard from '../components/RouteCard.astro';
 import DownloadBand from '../components/DownloadBand.astro';
 import PhotoMatchCard from '../components/PhotoMatchCard.astro';
+import ReviewCard from '../components/ReviewCard.astro';
 import { APP_STORE_URL, INSTAGRAM_HANDLE, INSTAGRAM_URL, TRAILER_YOUTUBE_ID } from '../consts';
 import { sortByDate } from '../lib/routes';
 import { APP } from '../lib/schema';
-import { appStoreRating } from '../lib/rating';
+import { aggregateRating, appStoreReviews, storeRatings } from '../lib/rating';
+import translations from '../data/review-translations.json';
 
 const latest = sortByDate(await getCollection('routes')).slice(0, 3);
 
-const rating = await appStoreRating();
-// The rating goes into the structured data only together with the visible line below (Google requires both).
-const app = rating
-  ? { ...APP, aggregateRating: { '@type': 'AggregateRating', ratingValue: rating.value, ratingCount: rating.count, bestRating: 5, worstRating: 1 } }
-  : APP;
+// Ratings and reviews come from the stores at build time; each store's appears only once it has some.
+// They go into the structured data only together with the visible versions below (Google requires both).
+const ratings = await storeRatings();
+const { _comment, ...reviewTranslations } = translations;
+const reviews = await appStoreReviews(reviewTranslations);
+const REVIEWS_SHOWN = 6;
+const LANGUAGE_NAMES: Record<string, string> = { de: 'German' };
+const app = {
+  ...APP,
+  ...(ratings.length > 0 && { aggregateRating: aggregateRating(ratings) }),
+  ...(reviews.length > 0 && {
+    review: reviews.map((r) => ({
+      '@type': 'Review',
+      author: { '@type': 'Person', name: 'App Store user' },
+      datePublished: r.date.toISOString().slice(0, 10),
+      name: r.title,
+      reviewBody: r.body,
+      inLanguage: r.lang ?? 'en',
+      reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5, worstRating: 1 },
+      publisher: { '@type': 'Organization', name: 'App Store' },
+    })),
+  }),
+};
 
 // Copy: the brief's 03-content/home.md.
 const STEPS = [
@@ -71,11 +91,15 @@ const HIGHLIGHTS = [
         <p class="lead">Xplore turns every trip into a collectible card. Track the countries you've visited, watch your world map fill in, and plan your next adventure for the perfect time of year.</p>
         <StoreBadges />
         <p class="small muted">Free · No sign-up needed · iPhone &amp; Android</p>
-        {rating && (
-          <a class="rating small" href={APP_STORE_URL}>
-            <span class="stars" aria-hidden="true">{'★'.repeat(Math.round(rating.value))}<span class="off">{'★'.repeat(5 - Math.round(rating.value))}</span></span>
-            <span>{rating.value.toFixed(1)} from {rating.count} ratings on the App Store</span>
-          </a>
+        {ratings.length > 0 && (
+          <div class="ratings">
+            {ratings.map((r) => (
+              <a class="rating small" href={r.url}>
+                <span class="stars" aria-hidden="true">{'★'.repeat(Math.round(r.value))}<span class="off">{'★'.repeat(5 - Math.round(r.value))}</span></span>
+                <span>{r.value.toFixed(1)} from {r.count} ratings on {r.store === 'App Store' ? 'the App Store' : 'Google Play'}</span>
+              </a>
+            ))}
+          </div>
         )}
       </div>
       {/* Hero fan (brief: home.md › Hero): cards fanned behind the tilted phone, the Epic card in front. */}
@@ -185,6 +209,33 @@ const HIGHLIGHTS = [
     </div>
   </section>
 
+  <!-- 6b Reviews -->
+  {reviews.length > 0 && (
+    <section id="reviews" class="section alt">
+      <div class="wrap stack" style="gap: 48px;">
+        <div class="head-row">
+          <div class="head">
+            <span class="eyebrow">Reviews</span>
+            <h2 class="h2">What travellers <span class="teal">say about Xplore</span></h2>
+            {ratings.length > 0 && <p class="muted">{ratings.map((r) => `${r.value.toFixed(1)} out of 5 from ${r.count} ratings on ${r.store === 'App Store' ? 'the App Store' : 'Google Play'}`).join(' · ')}. Every written review, newest first.</p>}
+          </div>
+          <a class="btn btn-secondary" href={APP_STORE_URL}>Rate Xplore</a>
+        </div>
+        <div class="g3 reviews">
+          {reviews.slice(0, REVIEWS_SHOWN).map((r) => <ReviewCard review={r} languageName={r.lang && LANGUAGE_NAMES[r.lang]} />)}
+        </div>
+        {reviews.length > REVIEWS_SHOWN && (
+          <details class="more-reviews">
+            <summary class="btn btn-secondary">Show all {reviews.length} reviews</summary>
+            <div class="g3 reviews">
+              {reviews.slice(REVIEWS_SHOWN).map((r) => <ReviewCard review={r} languageName={r.lang && LANGUAGE_NAMES[r.lang]} />)}
+            </div>
+          </details>
+        )}
+      </div>
+    </section>
+  )}
+
   <!-- 7 Pricing strip -->
   <section class="pricing">
     <div class="wrap">
@@ -237,6 +288,13 @@ const HIGHLIGHTS = [
 </script>
 
 <style>
+  .ratings { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+  .reviews { gap: 24px; }
+  .more-reviews[open] { margin-top: -24px; }
+  .more-reviews summary { list-style: none; cursor: pointer; width: fit-content; }
+  .more-reviews summary::-webkit-details-marker { display: none; }
+  .more-reviews[open] summary { display: none; }
+  .more-reviews .reviews { margin-top: 0; }
   .rating { display: inline-flex; align-items: center; gap: 8px; color: var(--xp-text-secondary); align-self: flex-start; }
   .rating:hover { color: var(--xp-text); }
   .rating .stars { color: var(--xp-accent); letter-spacing: 2px; }
