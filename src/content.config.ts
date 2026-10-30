@@ -48,6 +48,8 @@ const legal = defineCollection({
     title: z.string(),
     description: z.string(),
     last_updated: z.string().optional(),
+    /** "In short" points, shown in a highlighted box above the text. */
+    summary: z.array(z.string()).optional(),
   }),
 });
 

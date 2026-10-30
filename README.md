@@ -16,7 +16,7 @@ npm run build     # → dist/
 | Path | What |
 |---|---|
 | `src/content/routes/*.md` | Route posts. Frontmatter follows the brief's `04-blog/_template.md` and is validated in `src/content.config.ts`. |
-| `src/content/legal/*.md` | Imprint and privacy copy (editor notes stripped). |
+| `src/content/legal/*.md` | Imprint and privacy copy (editor notes stripped). Rendered by `src/layouts/LegalPage.astro`. Both privacy policies are `noindex` until legally reviewed. |
 | `src/styles/` | `tokens.css` (design tokens), `site.css` (classes lifted from the design canvas), `fonts.css` (self-hosted Inter). |
 | `src/components/` | Header, Footer, DownloadBand, XCard (collectible card), RouteCard, MonthStrip, StoreBadges. |
 | `public/assets/` | Brand, card photos, store posters, app screenshots (webp only). |
@@ -32,6 +32,5 @@ One-time setup: repo **Settings → Pages → Source: GitHub Actions**, then poi
 ## Status
 | Page | State |
 |---|---|
-| Features, route posts, `/routes`, imprint, 404, `/get` | Built (first pass) |
+| Features, privacy hub + both policies, route posts, `/routes`, imprint, 404, `/get` | Built (first pass) |
 | Home | Hero + latest routes + download band. Sections 2–8 to do. |
-| Privacy hub, Privacy (app), Privacy (website) | Placeholder (`noindex`) |

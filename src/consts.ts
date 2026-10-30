@@ -7,8 +7,8 @@ export const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=app
 export const INSTAGRAM_URL = 'https://www.instagram.com/xplore_the_world_app';
 export const CONTACT_EMAIL = 'xploremobileapp@gmail.com';
 
+// Privacy and legal pages are linked from the footer only.
 export const NAV = [
   { href: '/features', label: 'Features' },
   { href: '/routes', label: 'Travel routes' },
-  { href: '/privacy', label: 'Privacy' },
 ];

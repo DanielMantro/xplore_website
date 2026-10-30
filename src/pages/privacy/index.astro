@@ -1,7 +1,70 @@
 ---
+import { getEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import Stub from '../../components/Stub.astro';
+import { CONTACT_EMAIL } from '../../consts';
+
+const app = (await getEntry('legal', 'privacy-app'))!;
+const appUpdated = new Date(app.data.last_updated!).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+const PROMISES = [
+  { title: 'Photos stay on your phone.', text: 'Only the matched place is saved, never the picture.', icon: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/>' },
+  { title: 'No ads, no tracking.', text: 'No advertising IDs, no third-party analytics, no cookies.', icon: '<circle cx="12" cy="12" r="9"/><path d="m5.6 5.6 12.8 12.8"/>' },
+  { title: 'No account needed.', text: 'Start as a guest, and sign up only if you want to sync.', icon: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>' },
+  { title: 'Delete anytime.', text: 'Delete your account, or forget all photo data, right in the app.', icon: '<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>' },
+];
 ---
-<Base title="Privacy — Xplore" description="Privacy at Xplore: the app's privacy statement and the website's privacy policy." noindex>
-  <Stub heading="Privacy" source="03-content/privacy-hub.md" />
+<Base title="Privacy — Xplore" description="Privacy at Xplore: the app's privacy statement and the website's privacy policy.">
+  <section class="section" style="padding-bottom: 72px;">
+    <div class="wrap intro">
+      <span class="eyebrow">Privacy</span>
+      <h1 class="h1">Your travels are <span class="teal">yours</span></h1>
+      <p class="lead">Xplore collects only what it needs to run your collection, and nothing for advertising. Choose which policy you'd like to read.</p>
+    </div>
+  </section>
+
+  <section style="padding-bottom: 72px;">
+    <div class="wrap g2" style="gap: 24px; align-items: stretch;">
+      <a class="panel policy" href="/privacy/app">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span>
+        <span class="h3">Xplore app</span>
+        <span class="muted">What the iPhone and Android app stores, why it stores it, and how to delete it.</span>
+        <span class="more"><span class="teal">Read the app privacy statement →</span><span class="small updated">Updated {appUpdated}</span></span>
+      </a>
+      <a class="panel policy" href="/privacy/website">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>
+        <span class="h3">This website</span>
+        <span class="muted">Hosting, server logs and why there's no cookie banner.</span>
+        <span class="more"><span class="teal">Read the website privacy policy →</span></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="wrap" style="display: flex; flex-direction: column; gap: 40px;">
+      <h2 class="h2" style="font-size: 32px;">Our privacy promises</h2>
+      <div class="g4" style="gap: 24px;">
+        {PROMISES.map((p) => (
+          <div class="promise">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={p.icon} /></span>
+            <strong>{p.title}</strong>
+            <span class="muted small">{p.text}</span>
+          </div>
+        ))}
+      </div>
+      <p class="muted">Questions about your data? Email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
+    </div>
+  </section>
 </Base>
+
+<style>
+  .intro { display: flex; flex-direction: column; gap: 22px; max-width: 880px; margin-left: max(0px, calc((100% - 1200px) / 2)); }
+  .policy { padding: 36px; display: flex; flex-direction: column; gap: 16px; color: var(--xp-text); transition: border-color var(--xp-dur), transform var(--xp-dur) var(--xp-ease); }
+  .policy:hover { color: var(--xp-text); border-color: var(--xp-tint); transform: translateY(-2px); }
+  .policy .h3 { font-size: 26px; }
+  .more { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 8px; font-weight: 600; }
+  .updated { font-weight: 400; color: var(--xp-text-muted); }
+  .promise { display: flex; flex-direction: column; gap: 12px; }
+  @media (max-width: 900px) { .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px) { .policy { padding: 24px; } .g4 { grid-template-columns: minmax(0, 1fr); } }
+  @media (prefers-reduced-motion: reduce) { .policy, .policy:hover { transition: none; transform: none; } }
+</style>

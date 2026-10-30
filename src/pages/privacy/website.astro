@@ -1,7 +1,10 @@
 ---
-import Base from '../../layouts/Base.astro';
-import Stub from '../../components/Stub.astro';
+import { getEntry } from 'astro:content';
+import LegalPage from '../../layouts/LegalPage.astro';
+
+const entry = (await getEntry('legal', 'privacy-website'))!;
 ---
-<Base title="Privacy policy — xplore-mobileapp.de" description="Privacy policy for the Xplore website: hosting, server logs, no cookies, no tracking." noindex>
-  <Stub heading="Privacy policy — website" source="03-content/privacy-website.md" />
-</Base>
+{/* Hidden from search engines until the text has been legally reviewed (brief: open item 5). */}
+<LegalPage entry={entry} back={{ href: '/privacy', label: 'Privacy' }} noindex>
+  <Fragment slot="heading">Privacy policy: <span class="teal">this website</span></Fragment>
+</LegalPage>

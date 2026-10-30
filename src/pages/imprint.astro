@@ -1,17 +1,9 @@
 ---
-import { getEntry, render } from 'astro:content';
-import Base from '../layouts/Base.astro';
+import { getEntry } from 'astro:content';
+import LegalPage from '../layouts/LegalPage.astro';
 
-const page = (await getEntry('legal', 'imprint'))!;
-const { Content } = await render(page);
+const entry = (await getEntry('legal', 'imprint'))!;
 ---
-<Base title={page.data.title} description={page.data.description}>
-  <section class="section">
-    <div class="wrap">
-      <div class="legal">
-        <h1 class="h1">Imprint (Impressum)</h1>
-        <Content />
-      </div>
-    </div>
-  </section>
-</Base>
+<LegalPage entry={entry}>
+  <Fragment slot="heading">Imprint (Impressum)</Fragment>
+</LegalPage>
