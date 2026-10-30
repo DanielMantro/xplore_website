@@ -34,4 +34,5 @@ One-time setup: repo **Settings → Pages → Source: GitHub Actions**, then poi
 |---|---|
 | Route posts, `/routes`, imprint, 404, `/get` | Built (first pass) |
 | Home | Hero + latest routes + download band. Sections 2–8 to do. |
-| Features, Privacy hub, Privacy (app), Privacy (website) | Placeholder (`noindex`) |
+| Features | Placeholder (indexed) |
+| Privacy hub, Privacy (app), Privacy (website) | Placeholder (`noindex`) |
