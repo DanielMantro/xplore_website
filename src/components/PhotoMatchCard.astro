@@ -1,0 +1,18 @@
+---
+// Photo-scan illustration: a holiday photo shown as the card it was matched to.
+interface Props {
+  width?: number;
+}
+const { width = 280 } = Astro.props;
+---
+<div class="xcard r-uncommon" style={`width: ${width}px;`}>
+  <div class="photo"><img src="/assets/images/photo-scan-golden-gate.jpg" alt="A holiday photo of the Golden Gate Bridge matched to its card" width="220" height="300" loading="lazy"></div>
+  <span class="type t-landmark">Landmark</span>
+  <span class="undis matched">Matched from your photo</span>
+  <span class="name">Golden Gate Bridge</span>
+  <div class="foot">Uncommon</div>
+</div>
+
+<style>
+  .matched { color: #5EEAD4; border-color: rgba(20,184,166,.6); }
+</style>

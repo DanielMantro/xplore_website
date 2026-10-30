@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import DownloadBand from '../components/DownloadBand.astro';
+import PhotoMatchCard from '../components/PhotoMatchCard.astro';
 import { CONTACT_EMAIL } from '../consts';
 import { MONTHS } from '../lib/routes';
 
@@ -137,13 +138,7 @@ const KYOTO = { best: ['Mar', 'Apr', 'May', 'Oct', 'Nov'], okay: ['Jun', 'Sep', 
         </div>
       </div>
       <div class="center">
-        <div class="xcard r-uncommon" style="width: 280px;">
-          <div class="photo"><img src="/assets/images/photo-scan-golden-gate.jpg" alt="A holiday photo of the Golden Gate Bridge matched to its card" loading="lazy"></div>
-          <span class="type t-landmark">Landmark</span>
-          <span class="undis matched">Matched from your photo</span>
-          <span class="name">Golden Gate Bridge</span>
-          <div class="foot">Uncommon</div>
-        </div>
+        <PhotoMatchCard />
       </div>
     </div>
   </section>
@@ -356,7 +351,6 @@ const KYOTO = { best: ['Mar', 'Apr', 'May', 'Oct', 'Nov'], okay: ['Jun', 'Sep', 
 
   .privacy { display: flex; gap: 14px; }
   .privacy p { color: #E2E8F0; }
-  .xcard .matched { color: #5EEAD4; border-color: rgba(20,184,166,.6); }
 
   .medals { display: flex; gap: 10px; flex-wrap: wrap; }
   .levels { color: var(--xp-text-muted); }

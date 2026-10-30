@@ -32,5 +32,5 @@ One-time setup: repo **Settings → Pages → Source: GitHub Actions**, then poi
 ## Status
 | Page | State |
 |---|---|
-| Features, privacy hub + both policies, route posts, `/routes`, imprint, 404, `/get` | Built (first pass) |
-| Home | Hero + latest routes + download band. Sections 2–8 to do. |
+| Home, features, privacy hub + both policies, route posts, `/routes`, imprint, 404, `/get` | Built |
+| To do | Route map, stop cards inline in route posts, `/routes` filters + explainer, header "Get the app" popover with QR code |
