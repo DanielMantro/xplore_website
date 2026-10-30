@@ -7,20 +7,54 @@ test.describe('header', () => {
     const nav = page.getByRole('navigation', { name: 'Main' });
     await expect(nav.getByRole('link')).toHaveText(['Features', 'Travel routes']);
   });
+});
 
-  test('mobile menu opens, shows links and badges, and closes', async ({ page, isMobile }) => {
-    test.skip(!isMobile, 'mobile only');
+test.describe('mobile menu', () => {
+  // Checks what the visitor sees, not just that elements exist: the open menu must cover the screen below
+  // the header and sit on top of the page, wherever the page is scrolled to.
+  for (const path of ['/', '/features', '/routes/italian-lakes-dolomites']) {
+    test(`covers the screen and sits on top of the page: ${path}`, async ({ page, isMobile }) => {
+      test.skip(!isMobile, 'phones only');
+      await page.goto(path);
+      await page.evaluate(() => scrollTo(0, 900));
+      const burger = page.getByRole('button', { name: 'Open menu' });
+      const sheet = page.locator('#mobile-menu');
+      await burger.click();
+      await expect(sheet).toBeVisible();
+      await expect(page.getByRole('button', { name: 'Close menu' })).toHaveAttribute('aria-expanded', 'true');
+
+      const viewport = page.viewportSize()!;
+      const box = (await sheet.boundingBox())!;
+      expect(box.x).toBe(0);
+      expect(box.width).toBeCloseTo(viewport.width, 0);
+      expect(box.y).toBeLessThanOrEqual(80);
+      expect(box.y + box.height).toBeGreaterThanOrEqual(viewport.height - 1);
+
+      const onTop = await page.evaluate(() => {
+        const menu = document.getElementById('mobile-menu')!;
+        const points = [[24, 120], [innerWidth / 2, innerHeight / 2], [innerWidth - 24, innerHeight - 24]];
+        return points.map(([x, y]) => menu.contains(document.elementFromPoint(x, y)));
+      });
+      expect(onTop, 'page content shows through the open menu').toEqual([true, true, true]);
+
+      for (const name of ['Features', 'Travel routes']) await expect(sheet.getByRole('link', { name })).toBeInViewport();
+      await expect(sheet.getByRole('img', { name: 'Get it on Google Play' })).toBeInViewport();
+      await expect(page.locator('body')).toHaveCSS('overflow-y', 'hidden');
+
+      await page.keyboard.press('Escape');
+      await expect(sheet).toBeHidden();
+      await expect(burger).toBeFocused();
+      await expect(page.locator('body')).not.toHaveCSS('overflow-y', 'hidden');
+    });
+  }
+
+  test('a menu link navigates and the menu closes', async ({ page, isMobile }) => {
+    test.skip(!isMobile, 'phones only');
     await page.goto('/');
-    const burger = page.getByRole('button', { name: 'Open menu' });
-    const sheet = page.locator('#mobile-menu');
-    await expect(sheet).toBeHidden();
-    await burger.click();
-    await expect(sheet).toBeVisible();
-    await expect(burger).toHaveAttribute('aria-expanded', 'true');
-    await expect(sheet.getByRole('link', { name: 'Travel routes' })).toBeVisible();
-    await expect(sheet.getByRole('img', { name: 'Get it on Google Play' })).toBeVisible();
-    await burger.click();
-    await expect(sheet).toBeHidden();
+    await page.getByRole('button', { name: 'Open menu' }).click();
+    await page.locator('#mobile-menu').getByRole('link', { name: 'Travel routes' }).click();
+    await expect(page).toHaveURL(/\/routes$/);
+    await expect(page.locator('#mobile-menu')).toBeHidden();
   });
 });
 

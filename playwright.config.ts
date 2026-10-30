@@ -1,7 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
 // UI tests run against the production build (dist/), served like GitHub Pages serves it (tests/e2e/serve.mjs).
-// Locally they use the installed Google Chrome; CI installs Playwright's Chromium.
+// Locally the Chromium projects use the installed Google Chrome; CI installs Playwright's Chromium.
+// The iPhone project needs WebKit: `npx playwright install webkit` once.
 const PORT = 4322;
 const channel = process.env.CI ? undefined : 'chrome';
 
@@ -18,6 +19,8 @@ export default defineConfig({
   projects: [
     { name: 'desktop', use: { ...devices['Desktop Chrome'], channel, viewport: { width: 1440, height: 900 } } },
     { name: 'mobile', use: { ...devices['Pixel 7'], channel, viewport: { width: 390, height: 844 } } },
+    // Safari's engine on an iPhone: the browser most visitors from the App Store links will use.
+    { name: 'iphone', use: { ...devices['iPhone 17'] } },
   ],
   webServer: {
     command: `node tests/e2e/serve.mjs ${PORT}`,
