@@ -266,3 +266,18 @@ test('reviews carousel: every review in the page, buttons page through and stop 
   await track.evaluate((el) => el.scrollTo({ left: el.scrollWidth }));
   await expect(next).toBeDisabled();
 });
+
+test('reviews: phones cut long reviews short, Read more shows the whole text', async ({ page, isMobile }) => {
+  test.skip(!isMobile, 'phones only');
+  await page.goto('/');
+  const cards = page.locator('#reviews .review');
+  const index = await cards.evaluateAll((all) => all.findIndex((c) => !c.querySelector<HTMLElement>('.more')!.hidden));
+  expect(index).toBeGreaterThanOrEqual(0);
+  const card = cards.nth(index);
+  const text = card.locator('.original p');
+  const clamped = await text.evaluate((el) => el.clientHeight);
+  expect(await text.evaluate((el) => el.scrollHeight)).toBeGreaterThan(clamped);
+  await card.getByRole('button', { name: 'Read more' }).click();
+  await expect(card.getByRole('button', { name: 'Show less' })).toHaveAttribute('aria-expanded', 'true');
+  expect(await text.evaluate((el) => el.clientHeight)).toBeGreaterThan(clamped);
+});

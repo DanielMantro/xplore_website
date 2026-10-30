@@ -17,6 +17,7 @@ const date = review.date.toLocaleDateString('en-GB', { day: 'numeric', month: 's
     {review.title && <h3 class="title">{review.title}</h3>}
     <p>{review.body}</p>
   </div>
+  <button type="button" class="more micro" aria-expanded="false" hidden>Read more</button>
   {/* Collapsed so the card stays short; the text is still in the HTML for crawlers. */}
   {review.translation && (
     <details class="translation">
@@ -30,6 +31,25 @@ const date = review.date.toLocaleDateString('en-GB', { day: 'numeric', month: 's
   <footer class="small muted"><time datetime={review.date.toISOString().slice(0, 10)}>{date}</time> · App Store</footer>
 </article>
 
+<script>
+  // Phones clamp long reviews; "Read more" appears only on cards whose text is actually cut off.
+  for (const card of document.querySelectorAll<HTMLElement>('.review')) {
+    const button = card.querySelector<HTMLButtonElement>('.more')!;
+    const clamped = [...card.querySelectorAll<HTMLElement>('.original > *')];
+    // Next frame: showing the button resizes the carousel, which has its own observer.
+    const observer = new ResizeObserver(() => requestAnimationFrame(() => {
+      if (card.classList.contains('expanded')) return;
+      button.hidden = !clamped.some((el) => el.scrollHeight > el.clientHeight + 1);
+    }));
+    clamped.forEach((el) => observer.observe(el));
+    button.addEventListener('click', () => {
+      const expanded = card.classList.toggle('expanded');
+      button.setAttribute('aria-expanded', String(expanded));
+      button.textContent = expanded ? 'Show less' : 'Read more';
+    });
+  }
+</script>
+
 <style>
   .review { padding: 24px; display: flex; flex-direction: column; gap: 14px; }
   .stars { color: var(--xp-accent); letter-spacing: 2px; }
@@ -37,6 +57,7 @@ const date = review.date.toLocaleDateString('en-GB', { day: 'numeric', month: 's
   .original { display: flex; flex-direction: column; gap: 6px; }
   .title { margin: 0; font-size: 18px; line-height: 1.35; font-weight: 600; color: var(--xp-text); }
   p { margin: 0; color: #CBD5E1; white-space: pre-line; overflow-wrap: anywhere; }
+  .more { align-self: flex-start; margin-top: -6px; padding: 0; border: 0; background: none; color: var(--xp-tint); cursor: pointer; }
   .translation summary { cursor: pointer; width: fit-content; color: var(--xp-tint); }
   .translation > div { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; padding-left: 12px; border-left: 2px solid var(--xp-border); }
   .translation strong { color: var(--xp-text); font-weight: 600; }
@@ -48,5 +69,6 @@ const date = review.date.toLocaleDateString('en-GB', { day: 'numeric', month: 's
     .original :is(.title, p) { display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
     .original .title { -webkit-line-clamp: 2; line-clamp: 2; }
     .original p { -webkit-line-clamp: 4; line-clamp: 4; }
+    .expanded .original :is(.title, p) { display: block; }
   }
 </style>
