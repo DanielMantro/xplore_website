@@ -12,6 +12,20 @@ npm run dev       # http://localhost:4321
 npm run build     # → dist/
 ```
 
+## Tests
+Every commit runs `npm test` (git pre-commit hook, installed by `npm install`). GitHub Actions runs the same suite
+on every push and pull request, and only deploys when it passes.
+
+| Command | What it checks |
+|---|---|
+| `npm run check` | Astro and TypeScript diagnostics |
+| `npm run test:unit` | Route helpers, and route content: slugs, images exist, nights add up, months, card catalog (`tests/unit/`) |
+| `npm run build` | Production build, including the content schema in `src/content.config.ts` |
+| `npm run test:e2e` | Browser tests on the built site at 1440px and 390px (`tests/e2e/`): every page loads with correct head tags and no console errors, no third-party requests, no sideways scrolling, no unloaded or stretched images, internal links and anchors resolve, header menu, trailer click-to-load, feature chips, FAQ, legal table of contents, route post widgets, `noindex` on unreviewed policies, and an axe accessibility scan (WCAG 2.1 AA, serious and critical) |
+
+The UI tests use your installed Google Chrome locally (CI installs Chromium). If you don't have Chrome, run
+`npx playwright install chromium` once and set `CI=1`. To bypass the hook in an emergency: `SKIP_SIMPLE_GIT_HOOKS=1 git commit …`.
+
 ## Layout
 | Path | What |
 |---|---|

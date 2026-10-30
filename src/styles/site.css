@@ -6,6 +6,8 @@ body { margin: 0; background: var(--xp-bg); color: var(--xp-text); font-family: 
 * { box-sizing: border-box; }
 a { color: var(--xp-tint); text-decoration: none; }
 a:hover { color: #5EEAD4; }
+/* Links inside running text need more than colour to stand out (WCAG 1.4.1). */
+p a:not(.btn) { text-decoration: underline; text-underline-offset: 2px; }
 h1, h2, h3, p { margin: 0; }
 /* width/height attributes reserve space; CSS sizes the image without stretching it. */
 img { max-width: 100%; height: auto; }
@@ -57,7 +59,7 @@ a.btn-secondary, .btn-secondary { background: var(--xp-surface); color: var(--xp
 .xcard .photo { position: relative; flex: 1; overflow: hidden; }
 .xcard .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .xcard .photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,.92) 100%); }
-.xcard .type { position: absolute; z-index: 1; top: 10px; left: 10px; padding: 3px 7px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #fff; }
+.xcard .type { position: absolute; z-index: 1; top: 10px; left: 10px; padding: 3px 7px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #0F1117; } /* dark text: white on the type colours fails contrast */
 .xcard .name { position: absolute; z-index: 1; left: 12px; right: 12px; bottom: 40px; font-size: 19px; line-height: 1.15; font-weight: 700; color: #fff; }
 .xcard .foot { height: 30px; padding: 0 12px; display: flex; align-items: center; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #fff; }
 .xcard.undiscovered .photo img { filter: grayscale(1); opacity: .5; }
@@ -97,7 +99,7 @@ a.btn-secondary, .btn-secondary { background: var(--xp-surface); color: var(--xp
 .months div { height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
 .m-best { background: var(--xp-tint); color: #0F1117; }
 .m-ok { background: rgba(20,184,166,.28); color: var(--xp-text); }
-.m-avoid { background: var(--xp-surface-elevated); color: var(--xp-text-muted); }
+.m-avoid { background: var(--xp-surface-elevated); color: var(--xp-text-secondary); }
 
 /* legal */
 .legal { max-width: 760px; }

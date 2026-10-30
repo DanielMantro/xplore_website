@@ -14,7 +14,8 @@ interface Props {
   noindex?: boolean;
 }
 const { title, description, ogImage = '/assets/images/og-image.jpg', ogType = 'website', noindex = false } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+// build.format 'file' gives pathnames like /features.html; the public URL is /features.
+const canonical = new URL(Astro.url.pathname.replace(/(\/index)?\.html$/, '') || '/', Astro.site);
 const ogImageUrl = new URL(ogImage, Astro.site);
 ---
 <!doctype html>

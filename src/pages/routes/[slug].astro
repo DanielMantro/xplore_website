@@ -71,7 +71,7 @@ const jsonLd = {
     <div class="wrap collect">
       <span class="eyebrow">Collect this route</span>
       <h2 class="h2">{data.stops.length} cards to collect <span class="teal">on this route</span></h2>
-      <div class="cards">
+      <div class="cards" tabindex="0" role="region" aria-label="Cards on this route">
         {data.stops.map((s) => <XCard name={s.name} image={s.image} type={s.type} rarity={s.rarity} />)}
       </div>
       {data.collectNote && <p class="muted note-line">{data.collectNote}</p>}

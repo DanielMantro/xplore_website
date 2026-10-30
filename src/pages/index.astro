@@ -89,7 +89,7 @@ const jsonLd = {
         <span class="eyebrow">How it works</span>
         <h2 class="h2">Your travels, turned into <span class="teal">a collection</span></h2>
       </div>
-      <div class="g3 steps">
+      <div class="g3 steps" tabindex="0" role="region" aria-label="How it works, three steps">
         {STEPS.map((step, i) => (
           <div class="step">
             <div class="poster"><img src={`/assets/store/${step.img}.webp`} alt={step.alt} width="600" height="1301" loading="lazy"></div>
