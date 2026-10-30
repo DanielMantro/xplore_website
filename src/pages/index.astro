@@ -20,7 +20,6 @@ const latest = sortByDate(await getCollection('routes')).slice(0, 3);
 const ratings = await storeRatings();
 const { _comment, ...reviewTranslations } = translations;
 const reviews = await appStoreReviews(reviewTranslations);
-const REVIEWS_SHOWN = 6;
 const LANGUAGE_NAMES: Record<string, string> = { de: 'German' };
 const app = {
   ...APP,
@@ -219,18 +218,17 @@ const HIGHLIGHTS = [
             <h2 class="h2">What travellers <span class="teal">say about Xplore</span></h2>
             {ratings.length > 0 && <p class="muted">{ratings.map((r) => `${r.value.toFixed(1)} out of 5 from ${r.count} ratings on ${r.store === 'App Store' ? 'the App Store' : 'Google Play'}`).join(' · ')}. Every written review, newest first.</p>}
           </div>
+          <div class="carousel-nav" hidden>
+            <button type="button" class="btn btn-secondary" data-dir="-1" aria-label="Previous reviews"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+            <button type="button" class="btn btn-secondary" data-dir="1" aria-label="Next reviews"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+          </div>
         </div>
-        <div class="g3 reviews">
-          {reviews.slice(0, REVIEWS_SHOWN).map((r) => <ReviewCard review={r} languageName={r.lang && LANGUAGE_NAMES[r.lang]} />)}
+        {/* Carousel: every review is in the HTML (for crawlers); it scrolls and swipes without JS, the buttons need it. */}
+        <div class="carousel" tabindex="0" role="region" aria-label="Reviews, scroll sideways for more">
+          <ul>
+            {reviews.map((r) => <li><ReviewCard review={r} languageName={r.lang && LANGUAGE_NAMES[r.lang]} /></li>)}
+          </ul>
         </div>
-        {reviews.length > REVIEWS_SHOWN && (
-          <details class="more-reviews">
-            <summary class="btn btn-secondary">Show all {reviews.length} reviews</summary>
-            <div class="g3 reviews">
-              {reviews.slice(REVIEWS_SHOWN).map((r) => <ReviewCard review={r} languageName={r.lang && LANGUAGE_NAMES[r.lang]} />)}
-            </div>
-          </details>
-        )}
       </div>
     </section>
   )}
@@ -274,6 +272,29 @@ const HIGHLIGHTS = [
 </Base>
 
 <script>
+  // Reviews carousel: the buttons page by one card and turn off at either end.
+  for (const section of document.querySelectorAll<HTMLElement>('#reviews')) {
+    const track = section.querySelector<HTMLElement>('.carousel')!;
+    const nav = section.querySelector<HTMLElement>('.carousel-nav')!;
+    const [prev, next] = nav.querySelectorAll<HTMLButtonElement>('button');
+    const smooth = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    const update = () => {
+      prev.disabled = track.scrollLeft <= 1;
+      next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
+      nav.hidden = prev.disabled && next.disabled;
+    };
+    for (const button of [prev, next]) {
+      button.addEventListener('click', () => {
+        const list = track.querySelector('ul')!;
+        const step = list.firstElementChild!.getBoundingClientRect().width + parseFloat(getComputedStyle(list).columnGap || '0');
+        track.scrollBy({ left: Number(button.dataset.dir) * step, behavior: smooth });
+      });
+    }
+    track.addEventListener('scroll', update, { passive: true });
+    // Also runs once layout has settled (WebKit can run this script before the track has its final width).
+    new ResizeObserver(update).observe(track);
+  }
+
   for (const box of document.querySelectorAll<HTMLElement>('.trailer')) {
     box.querySelector('button')!.addEventListener('click', () => {
       const iframe = document.createElement('iframe');
@@ -288,12 +309,17 @@ const HIGHLIGHTS = [
 
 <style>
   .ratings { display: flex; flex-wrap: wrap; gap: 8px 24px; }
-  .reviews { gap: 24px; }
-  .more-reviews[open] { margin-top: -24px; }
-  .more-reviews summary { list-style: none; cursor: pointer; width: fit-content; }
-  .more-reviews summary::-webkit-details-marker { display: none; }
-  .more-reviews[open] summary { display: none; }
-  .more-reviews .reviews { margin-top: 0; }
+  .carousel { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .carousel ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 24px; }
+  .carousel::-webkit-scrollbar { display: none; }
+  .carousel:focus-visible { outline: 2px solid var(--xp-tint); outline-offset: 4px; border-radius: 20px; }
+  /* Cards keep their own height, so a long review doesn't stretch the short ones. */
+  .carousel ul { align-items: flex-start; }
+  .carousel li { flex: 0 0 calc((100% - 48px) / 3); scroll-snap-align: start; }
+  .carousel-nav { display: flex; gap: 12px; align-self: flex-end; }
+  .carousel-nav[hidden] { display: none; }
+  .carousel-nav .btn { width: 48px; padding: 0; }
+  .carousel-nav .btn:disabled { opacity: .4; cursor: default; translate: none; box-shadow: none; }
   .rating { display: inline-flex; align-items: center; gap: 8px; color: var(--xp-text-secondary); align-self: flex-start; }
   .rating:hover { color: var(--xp-text); }
   .rating .stars { color: var(--xp-accent); letter-spacing: 2px; }
@@ -340,6 +366,7 @@ const HIGHLIGHTS = [
 
   @media (max-width: 900px) {
     .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .carousel li { flex-basis: calc((100% - 24px) / 2); }
   }
   @media (max-width: 640px) {
     .hero { padding: 56px 0 72px; }
@@ -359,6 +386,10 @@ const HIGHLIGHTS = [
     .highlight .more { display: none; }
     .g3:has(> .highlight) { gap: 12px; }
     .strip { padding: 28px 24px; }
+    /* Phones: edge to edge, the next review peeking in. */
+    .carousel { margin: 0 -16px; padding: 0 16px; scroll-padding-inline: 16px; }
+    .carousel ul { gap: 16px; }
+    .carousel li { flex-basis: 85%; }
   }
   @media (prefers-reduced-motion: reduce) {
     .highlight, .highlight:hover { transition: none; transform: none; }

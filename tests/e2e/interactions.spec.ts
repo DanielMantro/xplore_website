@@ -252,3 +252,17 @@ test.describe('travel routes filters', () => {
     await expect(page.locator('.cta').getByRole('link', { name: /@xplore_the_world_app/ })).toHaveAttribute('href', 'https://www.instagram.com/xplore_the_world_app');
   });
 });
+
+test('reviews carousel: every review in the page, buttons page through and stop at the ends', async ({ page }) => {
+  await page.goto('/');
+  const track = page.locator('#reviews .carousel');
+  const prev = page.getByRole('button', { name: 'Previous reviews' });
+  const next = page.getByRole('button', { name: 'Next reviews' });
+  expect(await track.locator('li').count()).toBeGreaterThan(3);
+  await expect(prev).toBeDisabled();
+  await next.click();
+  await expect(prev).toBeEnabled();
+  await expect.poll(() => track.evaluate((el) => el.scrollLeft)).toBeGreaterThan(0);
+  await track.evaluate((el) => el.scrollTo({ left: el.scrollWidth }));
+  await expect(next).toBeDisabled();
+});
